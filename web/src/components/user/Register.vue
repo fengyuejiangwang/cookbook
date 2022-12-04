@@ -1,15 +1,10 @@
 <template>
-  <div>
 
-  </div>
 </template>
 
 <script>
-// import userApi from "../../api/user";
 export default {
-  name: "Login",
-
-
+  name: "Register"
 }
 </script>
 
