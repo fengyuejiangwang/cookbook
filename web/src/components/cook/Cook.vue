@@ -734,7 +734,7 @@ export default {
   width: 390px;
   height: 250px;
   display: block;
- border-radius: 100px;
+ border-radius: 1px;
 }
 .relative {
   position: relative;
@@ -926,5 +926,66 @@ ul {
 
   line-height: 56px;
 
+}
+.menu-list {
+  min-height: 600px;
+margin-top: 30px;
+  margin-left: 120px;
+}
+.menu-list li {
+  width: 306px;
+  height: 172px;
+  border-radius: 8px;
+  float: left;
+  position: relative;
+  margin-right: 41px;
+  margin-bottom: 41px;
+  overflow: hidden;
+
+}
+.menu-list .cover {
+  display: block;
+  width: 306px;
+  height: 172px;
+  overflow: hidden;
+
+}
+.menu-list img {
+  display: block;
+  width: 100%;
+}
+
+.wb100 {
+  display: block;
+  width: 100%;
+}
+img {
+  vertical-align: bottom;
+}
+.menu-list .menuinfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.14);
+  text-align: center;
+}
+.absolute {
+  position: absolute;
+}
+.menu-list .name {
+  font-weight: bold;
+  padding-top: 62px;
+  font-size: 16px;
+}
+
+.menu-list p {
+  width: 290px;
+  font-size: 13px;
+  color: #FFF;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 28%);
+  margin: 0 auto;
+  padding-top: 10px;
 }
 </style>
