@@ -1,9 +1,9 @@
 <template>
-
-  <div>
-
+<div>
+  <div style="margin-left: 150px;margin-top: 50px">
+<rol style="margin-left: 50px" v-for="(item,index) in 5" :key="item">
   <div class="note-list">
-  <div class="note" v-for="(item, index) in 24" :key="item">
+  <div class="note">
     <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;height:319.875px">
       <img src="https://cp1.douguo.com/upload/note/5/7/7/320_57271a1ef74db613022ea84c5555c0f7.jpg" alt="" height="319.875">
     </a>            <div class="note-info clearfix">
@@ -16,62 +16,55 @@
   </div>
   </div>
   </div>
-  <div class="note-list ml13">
-  <div class="note" v-for="(item, index) in 24" :key="item">
-    <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;">
-      <img src="https://cp1.douguo.com/upload/note/6/8/d/320_68d8486a6d96fefa1fbef31a93296e7d.jpg" alt="" height="159.77777777777777">
-    </a>            <div class="note-info clearfix">
-    <a href="/dish/31407977" class="note-name" target="_blank">家里太暖整个人都干🔥的男女生看过来！</a>
-    <a href="/u/u87931697725071" class="user-head" target="_blank">
-      <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
-    </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">少女吃喝日常</a>
-    <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">318</span>
-  </div>
-  </div>
-  </div>
-  <div class="note-list ml14">
-  <div class="note" v-for="(item, index) in 24" :key="item">
-    <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;height:319.875px">
-      <img src="https://cp1.douguo.com/upload/note/5/7/7/320_57271a1ef74db613022ea84c5555c0f7.jpg" alt="" height="319.875">
-    </a>            <div class="note-info clearfix">
-    <a href="/dish/31407977" class="note-name" target="_blank">家里太暖整个人都干🔥的男女生看过来！</a>
-    <a href="/u/u87931697725071" class="user-head" target="_blank">
-      <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
-    </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">少女吃喝日常</a>
-    <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">318</span>
-  </div>
-  </div>
-  </div>
-  <div class="note-list ml13">
-  <div class="note" v-for="(item, index) in 24" :key="item">
-    <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;height:319.875px">
-      <img src="https://cp1.douguo.com/upload/note/5/7/7/320_57271a1ef74db613022ea84c5555c0f7.jpg" alt="" height="319.875">
-    </a>            <div class="note-info clearfix">
-    <a href="/dish/31407977" class="note-name" target="_blank">家里太暖整个人都干🔥的男女生看过来！</a>
-    <a href="/u/u87931697725071" class="user-head" target="_blank">
-      <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
-    </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">少女吃喝日常</a>
-    <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">318</span>
-  </div>
-  </div>
-  </div>
+  </rol>
 
   </div>
+  <div align="center" >
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-sizes="[10,20,50]"
+      :total="pageInfo.total"
+      :current-page="pageInfo.pageNo"
+      :page-size="pageInfo.pageSize"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange">
+    </el-pagination>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      count:0
+      count:0,
+      pageInfo: {
+        pageNo: 1,
+        pageSize: 9,
+        total: 0,
+      },
     }
   },
   methods: {
     load () {
       this.count += 2
+    },
+    // 页面数量改变后查询处理
+    handleSizeChange(val) {
+      this.pageinfo.pageSize = val;
+      if (this.goodstype === "全部")
+        this.getlist();
+      else
+        this.getlistByType();
+    },
+    // 页码改变后查询处理
+    handleCurrentChange(val) {
+      this.pageInfo.pageNo = val;
+      if (this.goodstype === "全部")
+        this.getlist();
+      else
+        this.getlistByType();
     }
   }
 }
@@ -145,7 +138,7 @@ a {
   overflow: hidden;
 }
 .note-list .not-like {
-  background: red url(../../assets/like.png) no-repeat left 1px;
+  background:  url(../../assets/love.png) no-repeat left 1px;
   _background-image: none;
   background-size: 15px;
 
