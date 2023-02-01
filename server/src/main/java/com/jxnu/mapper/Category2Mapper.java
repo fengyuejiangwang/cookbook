@@ -1,6 +1,6 @@
-package com.jxnu.dao;
+package com.jxnu.mapper;
 
-import com.jxnu.entity.Category1;
+import com.jxnu.entity.Category2;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author h.h.Huang
  * @since 2022-11-15
  */
-public interface Category1Mapper extends BaseMapper<Category1> {
+public interface Category2Mapper extends BaseMapper<Category2> {
 
 }

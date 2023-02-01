@@ -57,14 +57,33 @@
 </template>
 
 <script>
+import noteApi from "../../api/note";
+
 export default {
-  name: "Left"
+  name: "Left",
+  data(){
+    return {
+      hotWork:'',
+    };
+  },
+  created(){
+    this.getHotNote();
+  },
+  methods: {
+    async getHotNote() {
+      let res = await noteApi.getHotNote();
+      res = res.data;
+      if (res.code == 200) {
+        this.hotNote = res.data;
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
 #left {
-  width: 725px;
+  width: 750px;
   float: left;
 }
 .all_search {
@@ -112,7 +131,7 @@ h2 {
   top: -1px;
 }
 .material-list {
-  width: 690px;
+  width: 750px;
   height: 276px;
   background: #F1F7FA;
   margin-top: 20px;
@@ -270,10 +289,11 @@ strong {
 .zp-list {
   margin-top: 25px;
 }
+
  .zp {
   display: inline-block;
-  width: 110px;
-  height: 110px;
+  width: 125px;
+  height: 125px;
   float: left;
   overflow: hidden;
 }
@@ -282,6 +302,7 @@ strong {
   width: 202px;
   height: 110px;
   margin-left: 6px;
+   margin-right: 10px;
   font-size: 13px;
   color: #333;
   padding-top: 15px;
@@ -293,5 +314,10 @@ strong {
   color: #000;
   font-weight: bold;
 }
-
+body, div, img, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, a, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
 </style>

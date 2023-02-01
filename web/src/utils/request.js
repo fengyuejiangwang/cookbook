@@ -1,5 +1,4 @@
 import axios from "axios";
-import { MessageBox, Message } from "element-ui";
 
 // create an axios instance
 const service = axios.create({
@@ -35,17 +34,8 @@ const http = {
       }
     });
   },
-  // get请求
-  get(url, params) {
-    return service.get(url, {
-      params: params,
-      paramsSerializer: params => {
-        return qs.stringify(params);
-      }
-    });
-  },
   // rest风格的get请求
-  getRestApi(url, params) {
+  getRest(url, params) {
     let _params;
     if (Object.is(params, undefined || null)) {
       _params = "";

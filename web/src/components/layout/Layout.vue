@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .el-header{
-
+    height: 60px;
 }
 
 .el-footer {

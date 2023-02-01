@@ -3,15 +3,18 @@ import Router from 'vue-router'
 import Index from "../components/index"
 import Login from "../components/user/Login";
 import Register from "../components/user/Register";
-import DailyNote from "../components/index/DailyNote";
 import Home from "../components/Home";
-
+import UploadCook from "../components/cook/UploadCook";
+import CookDetail from "../components/cook/CookDetail";
+import UserProfile from "../components/user/UserProfile";
+import User from "../components/user/User"
 Vue.use(Router);
 
 export default new Router({
    mode:'history',
   routes: [
     {path: '/', redirect: '/index'},
+    {path: '/home', redirect: '/index'},
     {
       path: '/home',
       name:'主页',
@@ -24,6 +27,30 @@ export default new Router({
           meta:{title: '首页'},
           component: Index,
         },
+        {
+          path: '/uploadcook',
+          name:'发布菜谱',
+          meta:{title: '发布菜谱'},
+          component: UploadCook,
+        },
+        {
+          path: '/cookdetail',
+          name:'菜谱详情',
+          meta:{title: '菜谱详情'},
+          component: CookDetail,
+        },
+        {
+          path: '/user',
+          name:'个人中心',
+          meta:{title: '个人中心'},
+          component: User,
+        },
+        {
+          path: '/userprofile',
+          name:'个人资料',
+          meta:{title: '个人资料'},
+          component: UserProfile,
+        }
        ]
     },
     {

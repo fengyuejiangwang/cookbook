@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jxnu.entity.User;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,19 +16,19 @@ import java.util.List;
  * </p>
  *
  * @author h.h.Huang
- * @since 2022-11-13
+ * @since 2022-12-13
  */
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Resource
     private IUserService iUserService;
-    @PostMapping("/info")
-    public Result getInfo(@RequestBody User user) {
-        List<User> userList = iUserService.findUserListByRealName(user.getRealName());
-        if (!ObjectUtils.isEmpty(userList)) {
-            return Result.ok(userList).message("用户信息查询成功");
+    @GetMapping("/gourmetdaren")
+    public Result getGourmetDaren(){
+        List<User> gourmetDaren = iUserService.getGourmetDaren();
+        if(!ObjectUtils.isEmpty(gourmetDaren)){
+            return Result.ok(gourmetDaren).message("获取美食达人信息成功");
         }
-        return Result.error().message("用户信息查询失败");
+        return Result.error().message("获取美食达人信息失败");
     }
 }

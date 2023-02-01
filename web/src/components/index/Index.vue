@@ -2,8 +2,8 @@
   <div>
   <img src="../../assets/indexImg.jpg" style="width: 100%;">
   <div style="width: 1050px;margin: auto;">
-  <DailyCook/>
-  <DailyNote/>
+      <DailyHotCook/>
+      <Note/>
     <Left style="display: inline-block"/>
     <Right style="display: inline-block"/>
   </div>
@@ -11,15 +11,15 @@
 </template>
 
 <script>
-import DailyCook from "./DailyCook";
-import DailyNote from "./DailyNote";
+import DailyHotCook from "./DailyHotCook";
+import Note from "./Note";
 import Left from "./Left";
 import Right from "./Right";
 export default {
   name: "index",
   components: {
-    DailyCook:DailyCook,
-    DailyNote:DailyNote,
+    DailyHotCook:DailyHotCook,
+    Note:Note,
     Left:Left,
     Right:Right
   }

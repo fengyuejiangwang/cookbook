@@ -12,17 +12,17 @@ public class FastAutoGeneratorTest {
                 .globalConfig(builder -> {
                     builder.author("h.h.Huang") // 设置作者
 //                            .enableSwagger() // 开启 swagger 模式
-//                            .fileOverride() // 覆盖已生成文件
+                        .fileOverride() // 覆盖已生成文件
                               .outputDir("D://workSpace//cookbook//server//src//main//java"); // 指定输出目录
                 })
                 .packageConfig(builder -> {
                     builder.parent("com.jxnu") // 设置父包名
                             .moduleName("") // 设置父包模块名
-                            .mapper("dao")
+                            .mapper("mapper")
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D://workSpace//cookbook//server//src//main//resources//mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("category2") // 设置需要生成的表名
+                    builder.addInclude("step") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_")// 设置过滤表前缀
                             .controllerBuilder()
                             .enableRestStyle()

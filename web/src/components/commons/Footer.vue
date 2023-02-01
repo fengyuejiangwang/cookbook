@@ -3,7 +3,7 @@
     <div class="dginfo">
       <div class="dgintro">
         <div class="logo2">
-          <img class="wb100" src="https://cp1.douguo.com//static/nweb/images/logo3.png?20191218" alt="豆果美食logo">
+          <img class="wb100" src="../../assets/logo.png" alt="豆果美食logo">
         </div>
         <div class="datainfo">
           <p><span>500万+</span>美食菜谱；<span>2000万+</span>互动内容；<span>3000+</span>美食课堂；<span>5000万+</span>用户每天都有新分享</p>
@@ -31,7 +31,6 @@
       </div>
     </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -64,7 +63,7 @@ export default {
 .dgintro .logo2 {
   width: 147px;
   left: 0;
-  top: 35px;
+  top: 10px;
   position: absolute;
 }
 .wb100 {

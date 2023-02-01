@@ -1,10 +1,6 @@
 server:
   port: 8881
 
-person:
-  user: user
-  password: 123
-  age: 44
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,6 +33,10 @@ logging:
     com:
       jxnu:
         dao=debug: debug
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #全局逻辑删除配置
 mybatis-plus:

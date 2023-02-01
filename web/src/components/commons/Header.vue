@@ -1,118 +1,38 @@
 <template>
   <div id="header" class="">
     <div class="header clearfix">
-      <a class="logo left" href="/"><img src="https://cp1.douguo.com/static/nweb/images/logo3.png?20191218" alt=""></a>
-      <ul class="nav">
-        <li class="act"><a href="http://www.douguo.com">首页</a></li>
-        <li class="relative " onmouseover="javascript:$('.ctip').show();" onmouseout="javascript:$('.ctip').hide();">
-          <a href="/jingxuan">菜谱 <span class="naww"></span></a>
-          <div class="ctip" style="display: none;">
-            <span class="arwwj"> </span>
-            <div class="ctab clearfix">
-              <a href="/jingxuan/" target="_blank"><img src="https://cp1.douguo.com/static/nweb/images/jx3.png" alt=""> 精选</a>
-              <a href="/zuixin/" target="_blank"> <img src="https://i1.douguo.com/upload/banner/1585648022.png" alt="" style="margin-right:4px;">最新</a>
-              <a href="/caidan" target="_blank"><img src="https://cp1.douguo.com/static/nweb/images/menu3.png" alt=""> 菜单</a>
-            </div>
-            <div class="cblok clearfix">
-              <div class="citem clearfix">
-                <span>常见菜式</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/家常菜" target="_blank">家常菜</a>
-                  <a href="/caipu/热菜" target="_blank">热菜</a>
-                  <a href="/caipu/凉菜" target="_blank">凉菜</a>
-
-                </div>
-              </div>
-              <div class="citem clearfix">
-                <span>中国菜系</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/川菜" target="_blank">川菜</a>
-                  <a href="/caipu/粤菜" target="_blank">粤菜</a>
-                </div>
-              </div>
-              <div class="citem clearfix">
-                <span>外国食谱</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/韩国" target="_blank">韩国</a>
-                  <a href="/caipu/日本料理" target="_blank">日本料理</a>
-                </div>
-              </div>
-              <div class="citem clearfix">
-                <span>各地小吃</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/四川小吃" target="_blank">四川小吃</a>
-                  <a href="/caipu/广东小吃" target="_blank">广东小吃</a>
-
-                </div>
-              </div>
-              <div class="citem clearfix">
-                <span>烘焙大全</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/蛋糕" target="_blank">蛋糕</a>
-                  <a href="/caipu/面包" target="_blank">面包</a>
-
-                </div>
-              </div>
-            </div>
-            <div class="cmore">
-              <a href="/fenlei" target="_blank">查看全部分类 <img src="https://cp1.douguo.com/static/nweb/images/more2.png" alt=""></a>
-            </div>
-          </div>
-        </li>
-        <li class="relative " onmouseover="javascript:$('.healthy').show();" onmouseout="javascript:$('.healthy').hide();">
-          <a href="/article">饮食健康<span class="naww"></span></a>
-          <div class="healthy" style="display: none;">
-            <span class="arwwj"> </span>
-            <div class="cblok clearfix">
-              <div class="diet clearfix">
-                <span>饮食健康</span>
-                <div class="imublo clearfix">
-                  <a href="/article" target="_blank">饮食新闻</a>
-                  <a href="/caipu/美容瘦身" target="_blank">美容瘦身</a>
-                </div>
-              </div>
-              <div class="diet clearfix">
-                <span>功能性调理</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/清热去火" target="_blank">清热去火</a>
-                  <a href="/caipu/减肥" target="_blank">减肥</a>
-                  <a href="/caipu/祛痰" target="_blank">祛痰</a>
-                </div>
-              </div>
-              <div class="diet clearfix">
-                <span>人群膳食</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/孕妇" target="_blank">孕妇</a>
-                  <a href="/caipu/老人" target="_blank">老人</a>
-                </div>
-              </div>
-              <div class="diet clearfix">
-                <span>疾病调理</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/糖尿病" target="_blank">糖尿病</a>
-
-                </div>
-              </div>
-              <div class="diet clearfix">
-                <span>功效营养</span>
-                <div class="imublo clearfix">
-                  <a href="/caipu/补钙" target="_blank">补钙</a>
-                  <a href="/caipu/贫血" target="_blank">贫血</a>
-                  <a href="/caipu/提高免疫力" target="_blank">提高免疫力</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li><a href="/dish/hot">笔记</a></li>
-        <li><a href="/mall">商城</a></li>
+      <a class="logo left" href="/"><img src="../../assets/logo.png" alt=""></a>
+      <ul class="nav" >
+        <li class="act"><a href="/index">首页</a></li>
+        <li class="relative"><a href="/coookbook">菜谱 <span class="naww"></span></a></li>
+        <li class="relative"><a href="/health">饮食健康<span class="naww"></span></a></li>
+        <li class="relative"><a href="/note">笔记</a></li>
+        <li class="relative"><a href="/mall">商城</a></li>
       </ul>
-      <form class="search br4 left" method="POST" id="searchForm" action="/caipu/" accept-charset="utf-8" onsubmit="document.charset='utf-8';return Search();">
-        <input type="text" id="global_search_inpt" class="sput" name="keywords" value="搜索菜谱、菜单、食材、用户" lang="zh-CN" autocomplete="off" onfocus="if(this.value=='搜索菜谱、菜单、食材、用户') {this.value=''; $(this).addClass('fcbm'); }" onblur="if(!this.value) {this.value='';$(this).removeClass('fcbm');} setTimeout(function (){$('#mysu2').html('')},500)" onkeyup="selectItem(event)" onclick="selectItem(event)">
-        <input type="submit" value=" " class="lib">
-        <div class="sugg2" id="mysu2" style="display:none;"></div>
-      </form>
-      <div class="pubt" onmouseover="javascript:$('.pubt-box').show();" onmouseout="javascript:$('.pubt-box').hide();"> <a class="btn-pubt" href="javascript:void(0);">发布</a> <div class="pubt-box br8" style="display: none;"> <span class="arwwj"> </span> <a href="/upfood.html">发布菜谱</a> <a href="/caidan/create">创建菜单</a>  </div> </div><div class="myinfo relative" onmouseover="javascript:$('.myedit').show();" onmouseout="javascript:$('.myedit').hide();"> <a class="headicon" href="/u/u67996224849052.html"> <img class="wb100 br50" src="https://tx1.douguo.com/upload/photo/1/1/1/70_7171e40c70b2052bbf0a72a187633c6a.png" alt=""> <span class="msgnum">1</span> </a> <div class="myedit br8"> <span class="arwwj"> </span> <a class="relative" href="/message/remind/1" target="_blank">消息提醒 <span class="boll" style="display: inline-block;"></span> </a> <a href="/u/u67996224849052/collect">我的收藏</a> <a href="/draft/recipe">草稿箱</a> <a href="/user/profile" target="_blank">账号设置</a> <a href="/logout?v=1540878216">退出</a> </div> </div></div>
+      <div class="search br4 left">
+      <el-autocomplete
+        v-model="state"
+        :fetch-suggestions="querySearchAsync"
+        placeholder="请输入内容"
+        @select="handleSelect"
+        size="small"></el-autocomplete>
+      <el-button icon="el-icon-search"  size="small"style="border-left: none;margin-left: -5px;border-bottom-left-radius:0px;
+  border-top-left-radius:0px;"></el-button>
+      <el-button style="background-color: #84b92c;color: white;" size="small" >发布</el-button>
+      </div>
+      <div class="myinfo relative">
+      <el-dropdown style="margin-top: 10px;">
+        <span class="el-dropdown-link">
+          <el-avatar :size="40" :src="circleUrl">  </el-avatar>
+        </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>黄金糕</el-dropdown-item>
+        <el-dropdown-item>狮子头</el-dropdown-item>
+        <el-dropdown-item>螺蛳粉</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+      </div>
+   </div>
   </div>
 </template>
 
@@ -121,12 +41,201 @@ export default {
   name: "Header",
   data(){
     return {
-
+      index:'act',
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: '',
+      circleUrl:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      restaurants: [],
+      state: '',
+      timeout:  null,
     }
   },
+  methods: {
+    loadAll() {
+      return [
+        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
+        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
+        { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },
+        { "value": "泷千家(天山西路店)", "address": "天山西路438号" },
+        { "value": "胖仙女纸杯蛋糕（上海凌空店）", "address": "上海市长宁区金钟路968号1幢18号楼一层商铺18-101" },
+        { "value": "贡茶", "address": "上海市长宁区金钟路633号" },
+      ];
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        cb(results);
+      }, 3000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
+    }
+  },
+  mounted() {
+    this.restaurants = this.loadAll();
+  }
 }
 </script>
 
 <style scoped>
+#header {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 8%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  background: #fff;
+}
+.header {
+  width: 1000px;
+  height: 60px;
+  margin: 0 auto;
+}
+.clearfix {
+  zoom: 1;
+}
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+}
+ .logo {
+  height: 50px;
+  margin-top:6px;
+}
+.left {
+  float: left;
+}
+a {
+  color: #333;
+  text-decoration: none;
+}
+a:-webkit-any-link {
+  cursor: pointer;
+}
+#header .logo>img {
+  height: 50px;
+}
+img {
+  vertical-align: bottom;
+}
+ .nav {
+  float: left;
+  margin-left: 20px;
+  display: inline-block;
+}
+ol, ul, li {
+  list-style: none;
+}
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.nav li {
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+  color: #333;
+  padding: 0 12px;
+}
+ .nav li>a {
+  display: block;
+  width: auto;
+  height: 30px;
+  line-height: 30px;
+  color: #000;
+  letter-spacing: 1px;
+}
+ .nav li.act {
+  border-radius: 8px 8px 0 0;
+}
+ .nav li {
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
+  color: #333;
+  padding: 0 12px;
+}
+.relative {
+  position: relative;
+}
+.nav li.act>a {
+  color: #84b92c;
+  font-weight: bold;
+  border-bottom: 2px solid #84b92c;
+}
 
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+
+ .nav .naww {
+  display: inline-block;
+  width: 12px;
+  height: 6px;
+   background: url(https://cp1.douguo.com/static/nweb/images/more1-1.png);
+  vertical-align: middle;
+}
+
+.search {
+  height: 30px;
+  display: inline-block;
+  margin-left: 15px;
+  margin-top: 15px;
+  position: relative;
+}
+/deep/ .el-input__inner {
+  border-bottom-right-radius:0px;
+  border-top-right-radius:0px;
+  border-right: none;
+}
+/deep/ .el-input__inner:focus {
+ border-color:#DCDFE6;
+}
+.br4 {
+border-radius: 4px;
+}
+.myinfo {
+margin-left: 47px;
+float: left;
+}
+.el-dropdown-link {
+cursor: pointer;
+}
 </style>

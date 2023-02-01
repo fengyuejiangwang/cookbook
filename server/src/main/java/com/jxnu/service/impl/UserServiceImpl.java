@@ -2,11 +2,12 @@ package com.jxnu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jxnu.entity.User;
-import com.jxnu.dao.UserMapper;
+import com.jxnu.mapper.UserMapper;
 import com.jxnu.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,20 +16,26 @@ import java.util.List;
  * </p>
  *
  * @author h.h.Huang
- * @since 2022-11-13
+ * @since 2022-12-13
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+    @Resource
+    private UserMapper userMapper;
 
     @Override
-    public List<User> findUserListByRealName(String realName) {
-        char realNames[] = realName.toCharArray();
-        realName="";
-        for(int i=0;i<realNames.length;i++){
-            realName+="%"+realNames[i];
-        }
-        QueryWrapper queryWrapper = new QueryWrapper<>();
-        queryWrapper.likeRight("real_name",realName);
-        return baseMapper.selectList(queryWrapper);
+    public User findUserById(Long id) {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        return userMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public List<User> getGourmetDaren() {
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("follower_Count")
+                    .orderByAsc("id");
+        return userMapper.selectList(queryWrapper.last("limit 5"));
+    }
+
 }

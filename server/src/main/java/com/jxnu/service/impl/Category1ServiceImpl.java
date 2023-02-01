@@ -1,7 +1,7 @@
 package com.jxnu.service.impl;
 
 import com.jxnu.entity.Category1;
-import com.jxnu.dao.Category1Mapper;
+import com.jxnu.mapper.Category1Mapper;
 import com.jxnu.service.ICategory1Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

@@ -1,19 +1,23 @@
 <template>
   <div >
     <h2 class="title">每日精选菜谱
-      <a class="more" href="">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></a>
+      <router-link to="" class="more" >更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt="" style="
+   height: 10px;
+   vertical-align: middle;
+   position: relative;
+   top: -2px;"></router-link>
     </h2>
-    <ul class="recipe-list clearfix">
-      <li class="item" v-for="(item, index) in 8" :key="item">
-        <a class="cover br8" href="/cookbook/3227162.html" target="_blank">
-          <img width="220" height="220" src="https://cp1.douguo.com/upload/caiku/2/a/0/220x220_2aa99f35b3f1a6135450f5cd2ac316d0.jpg" alt="酥皮大泡芙——自用多年零失败配方分享">
-        </a>
+    <ul class="recipe-list clearfix" style="margin-top: 0px">
+      <li class="item" v-for="(val,key, index) in dailyHotCook" >
+        <router-link to="/cookdetail" class="cover br8">
+          <img width="220" height="220" :src="val.cover" :alt="val.cookTitle" @click="click(val.id)">
+        </router-link>
         <div>
-          <a class="name text-lips" target="_blank" href="/cookbook/3227162.html" >酥皮大泡芙——自用多年零失败配方分享
-          </a>
+          <router-link to="/cookdetail" class="name text-lips"  @click="click">{{val.description}}
+          </router-link >
           <p class="author text-lips">by
-            <a class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; " target="_blank" href="/u/u86645476792551.html">累并-快乐
-            </a>
+            <router-link to="/cookdetail" class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; ">{{key}}
+            </router-link>
           </p>
         </div>
       </li>
@@ -22,23 +26,47 @@
 </template>
 
 <script>
+import cookApi from "../../api/cook"
 export default {
   name: "DailyCook",
   data() {
     return {
-      cookList: [{id:"ass",mainimage:"qqq",subtitle:"ass"},{id:"11",mainimage: "as"}],
+      dailyHotCook:'',
     };
   },
+  created(){
+    this.getDailyHotCook();
+  },
+  methods:{
+    click(cookId) {
+      this.$router.push({name: "菜谱详情", query: {id: cookId}})
+    },
+    async getDailyHotCook(){
+        let res = await cookApi.getDailyHotCook();
+        res=res.data;
+        if(res.code==200) {
+          this.dailyHotCook = res.data;
+        }
+    }
+  }
 }
 </script>
 
 <style scoped>
+body, div, img, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, a, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
 .title{
   font-size: 20px;
   color: #333;
   font-weight: bold;
   margin-top: 40px;
   line-height: 20px;
+  margin-bottom: 0px;
+  margin-right: 0px;
 }
 h2 {
   display: block;
@@ -56,6 +84,7 @@ h2 {
   height: 20px;
   line-height: 20px;
   font-weight: normal;
+  margin-right:45px;
 }
 a {
   color: #333;
@@ -64,11 +93,8 @@ a {
 a:-webkit-any-link {
   cursor: pointer;
 }
-.more img {
-  height: 10px;
-  vertical-align: middle;
-  position: relative;
-  top: -1px;
+a:hover{
+  color: #84b92c;
 }
 .clearfix {
   zoom: 1;
@@ -81,9 +107,11 @@ ul {
   list-style-type: disc;
   margin-block-start: 1em;
   margin-block-end: 1em;
-  margin-inline-start: -38px;
+  margin-inline-start: 0px;
   margin-inline-end: 0px;
   padding-inline-start: 40px;
+  padding: 0;
+  margin-bottom: 0;
 }
 li {
   display: list-item;
@@ -118,11 +146,13 @@ li {
 img {
   vertical-align: bottom;
 }
+
 img[Attributes Style] {
   width: 220px;
   aspect-ratio: auto 220 / 220;
   height: 220px;
 }
+
 .recipe-list .name {
   display: block;
   width: 220px;

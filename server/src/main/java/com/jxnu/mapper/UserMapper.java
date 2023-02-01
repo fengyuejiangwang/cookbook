@@ -1,4 +1,4 @@
-package com.jxnu.dao;
+package com.jxnu.mapper;
 
 import com.jxnu.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author h.h.Huang
- * @since 2022-11-13
+ * @since 2022-12-13
  */
 public interface UserMapper extends BaseMapper<User> {
 
