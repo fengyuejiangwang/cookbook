@@ -11,9 +11,10 @@ import java.util.List;
  * </p>
  *
  * @author h.h.Huang
- * @since 2022-11-13
+ * @since 2022-12-13
  */
 public interface IUserService extends IService<User> {
+    User findUserById(Long id);
+    List<User> getGourmetDaren();
 
-    List<User> findUserListByRealName(String realName);
 }
