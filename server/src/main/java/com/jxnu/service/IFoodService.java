@@ -3,6 +3,8 @@ package com.jxnu.service;
 import com.jxnu.entity.Food;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -14,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IFoodService extends IService<Food> {
 
     Food findFoodInfoById(Long id);
+
+    List<Food> getHotFood();
 }

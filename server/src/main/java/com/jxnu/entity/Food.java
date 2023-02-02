@@ -36,12 +36,18 @@ public class Food implements Serializable {
      */
     private String heats;
 
-    private String img;
-
     /**
      * 适宜人群
      */
     private String suitablePeople;
 
+    /**
+     * 食材图片
+     */
+    private String picture;
 
+    /**
+     * 浏览量
+     */
+    private Long views;
 }

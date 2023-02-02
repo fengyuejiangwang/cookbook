@@ -4,9 +4,9 @@
  <div id="left">
   <div class="relative">
     <div id="banner" class="cboxElement cboxElement1" data-origin="https://cp1.douguo.com/upload/caiku/8/8/0/yuan_88abe3bcf16331749877132629ad3970.jpg" data-snum="1" href="javascript:void(0);" rel="recipe_img">
-      <a href="https://cp1.douguo.com/upload/caiku/8/8/0/yuan_88abe3bcf16331749877132629ad3970.jpg">
+      <router-link to="">
         <img class="wb100" :src="cook.cover" >
-      </a>
+      </router-link>
     </div>
   </div>
    <div class="rinfo relative" style="width: 700px">
@@ -40,14 +40,18 @@
    <el-row class="metarial">
      <h2 class="mini-title">{{cook.cookTitle}}用料</h2>
      <table width="690" border="0" cellspacing="0" cellpadding="0" class="retamr br8 table">
-       <tbody><tr v-for="count in parseInt((materials.length+1)/2)">
+       <tbody><tr v-for="count in parseInt(((materials.length+1)/2))">
          <td class="lirre" style="border-top:0;">
            <span class="scname"><router-link to="" >{{materials[2*count-2][0]}}</router-link></span>
            <span class="right scnum">{{materials[2*count-2][1]}}</span>
          </td>
-         <td style="border-top:0;">
+         <td style="border-top:0;" v-if="2*count-1<=materials.length-1">
            <span class="scname"><router-link to="" target="_blank">{{materials[2*count-1][0]}}</router-link></span>
            <span class="right scnum">{{materials[2*count-1][1]}}</span>
+         </td>
+         <td style="border-top:0;" v-else>
+           <span class="scname"></span>
+           <span class="right scnum"></span>
          </td>
        </tr>
        </tbody></table>
@@ -185,7 +189,7 @@ export default {
       res = res.data;
       if (res.code == 200) {
         this.materials = Object.entries(res.data);
-        console.log(9/2);
+        console.log(this.materials);
       }
     },
     async getStepInfo() {

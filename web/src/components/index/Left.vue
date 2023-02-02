@@ -3,17 +3,14 @@
     <!-- 大家都在搜 -->
     <h2 class="title">大家都在搜</h2>
     <div class="all_search">
-      <a href="https://www.360kuai.com/mob/subject/400?sign=ex_28e676e3" rel="nofollow" target="_blank" class="A"><span>新型肺炎实时疫情追踪</span>
+      <a href="https://www.360kuai.com/mob/subject/400?sign=ex_28e676e3" rel="nofollow" target="_blank" class="A"><span class="B">新型肺炎实时疫情追踪</span>
       </a>
     </div>
     <!-- 食材 -->
     <h2 class="title">热门食材<a class="more" href="/shicai">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></a></h2>
     <ul class="material-list br8">
-      <li class="item">
-        <a href="/ingredients/土豆" target="_blank">
-          <img class="br4" src="https://cp1.douguo.com/upload/shicai/1446028243.jpg" alt="土豆">
-          土豆
-        </a>
+      <li class="item" v-for="o in hotFood">
+        <router-link to=""><img class="br4" :src="o.picture" >{{o.name}}</router-link>
       </li>
     </ul>
     <!-- 主题站文章 -->
@@ -58,30 +55,44 @@
 
 <script>
 import noteApi from "../../api/note";
-
+import foodApi from "../../api/food"
 export default {
   name: "Left",
   data(){
     return {
+      hotFood:[],
       hotWork:'',
     };
   },
   created(){
-    this.getHotNote();
+    this.getHotFood();
   },
   methods: {
-    async getHotNote() {
-      let res = await noteApi.getHotNote();
+    async getHotFood() {
+      let res = await foodApi.getHotFood();
       res = res.data;
       if (res.code == 200) {
-        this.hotNote = res.data;
+        this.hotFood = res.data;
       }
-    }
+    },
+    async getHotWork() {
+      let res = await foodApi.getHotFood();
+      res = res.data;
+      if (res.code == 200) {
+        this.hotFood = res.data;
+      }
+    },
   }
 }
 </script>
 
 <style scoped>
+body, div, img, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, a, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
 #left {
   width: 750px;
   float: left;
@@ -96,6 +107,11 @@ export default {
   padding: 6px 24px;
   display: inline-block;
   margin: 12px 12px;
+  font: 12px Noto Sans,"思源黑体";
+}
+.B:hover{
+    color:#84b92c ;
+    border: 1px solid #84b92c;
 }
 .title{
   font-size: 20px;
@@ -114,7 +130,7 @@ h2 {
   font-weight: bold;
 }
 .A:hover{
- opacity: 0.3;
+  color: #84b92c;
 }
 .more {
   font-size: 13px;
@@ -131,11 +147,11 @@ h2 {
   top: -1px;
 }
 .material-list {
-  width: 750px;
-  height: 276px;
+  width: 690px;
+  height: 250px;
   background: #F1F7FA;
   margin-top: 20px;
-  padding: 4px 3px 24px;
+  padding: 6px 3px 24px;
 }
 .br8 {
   border-radius: 8px;
@@ -190,7 +206,7 @@ li {
   display: block;
 }
 .material-list .item a:hover{
-opacity: 0.3;
+  color: #84b92c;
 }
 .br4 {
   border-radius: 4px;
