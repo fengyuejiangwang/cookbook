@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -26,5 +27,13 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements IF
         QueryWrapper<Food> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("id",id);
         return foodMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public List<Food> getHotFood() {
+        QueryWrapper<Food> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("views")
+                .orderByAsc("id");
+        return foodMapper.selectList(queryWrapper.last("limit 12"));
     }
 }
