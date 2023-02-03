@@ -1,15 +1,15 @@
 package com.jxnu.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jxnu.entity.Note;
 import com.jxnu.service.INoteService;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.jxnu.vo.query.NoteQueryVo;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -31,6 +31,18 @@ public class NoteController {
     private INoteService iNoteService;
   @Resource
   private IUserService iUserService;
+
+  @PostMapping("/notelist")
+  public Result getNoteList(@RequestBody NoteQueryVo noteQueryVo){
+      IPage<Note> page=new Page<>(noteQueryVo.getPageNo(),noteQueryVo.getPageSize());
+      iNoteService.findNoteList(page,noteQueryVo);
+
+      if(!ObjectUtils.isEmpty(page)){
+          return Result.ok(page).message("物资信息获取成");
+      }
+      return Result.error().message("获取物资信息失败");
+
+  }
   @GetMapping("/hotnote")
     public Result getHotNote(){
       List<Note> noteList = iNoteService.getHotNote();

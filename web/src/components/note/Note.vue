@@ -1,18 +1,18 @@
 <template>
 <div>
   <div style="margin-left: 150px;margin-top: 50px">
-<rol style="margin-left: 50px" v-for="(item,index) in 5" :key="item">
+<rol style="margin-left: 50px" v-for="(item,index) in noteList" :key="item">
   <div class="note-list">
   <div class="note">
     <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;height:319.875px">
-      <img src="https://cp1.douguo.com/upload/note/5/7/7/320_57271a1ef74db613022ea84c5555c0f7.jpg" alt="" height="319.875">
+      <img :src="item.picture1" alt="" height="319.875">
     </a>            <div class="note-info clearfix">
-    <a href="/dish/31407977" class="note-name" target="_blank">家里太暖整个人都干🔥的男女生看过来！</a>
+    <a href="/dish/31407977" class="note-name" target="_blank" style="height: 40px">{{ item.noteTitle }}</a>
     <a href="/u/u87931697725071" class="user-head" target="_blank">
       <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
     </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">少女吃喝日常</a>
-    <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">318</span>
+    <a href="/u/u87931697725071" class="user-name" target="_blank">{{ getusername(item.userId) }}</a>
+    <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
   </div>
   </div>
   </div>
@@ -35,10 +35,14 @@
 </template>
 
 <script>
+import noteApi from "../../api/note"
+import userApi from "../../api/user"
 export default {
   data () {
     return {
       count:0,
+      realname:"",
+      noteList: [],
       pageInfo: {
         pageNo: 1,
         pageSize: 9,
@@ -46,25 +50,42 @@ export default {
       },
     }
   },
+  created() {
+
+    this.getlist();
+  },
   methods: {
     load () {
       this.count += 2
     },
+    async getlist() {
+      let res = await noteApi.getNoteList({pageNo: this.pageInfo.pageNo, pageSize: this.pageInfo.pageSize});
+      res = res.data;
+      console.log(res);
+      if (res.success) {
+        this.noteList = res.data.records;
+        this.pageInfo.total = res.data.total;
+
+      }
+    },
+    async getusername(val){
+      let res=await userApi.getUserName({Id:val});
+      res=res.data;
+      console.log(res.data.realName);
+      if(res.success){
+        this.realname= res.data.realName;
+
+      }
+    },
     // 页面数量改变后查询处理
     handleSizeChange(val) {
       this.pageinfo.pageSize = val;
-      if (this.goodstype === "全部")
-        this.getlist();
-      else
-        this.getlistByType();
+       this.getlist();
     },
     // 页码改变后查询处理
     handleCurrentChange(val) {
       this.pageInfo.pageNo = val;
-      if (this.goodstype === "全部")
-        this.getlist();
-      else
-        this.getlistByType();
+      this.getlist();
     }
   }
 }
