@@ -1,31 +1,31 @@
 <template>
   <div id="left" class="mt30">
     <el-carousel trigger="click">
-      <el-carousel-item v-for=" (val,item,index) in 4" :key="item">
-        <el-image :src="item" style="height: 400px; width: 530px"></el-image>
+      <el-carousel-item v-for="(item,index) in items" :key="item">
+        <el-image :src="item.picture" ></el-image>
       </el-carousel-item>
     </el-carousel>
     <!--作者-->
     <div class="menu-head">
       <h3 class="note-title relative" style="font-weight:normal">
-        <p style="max-width:590px;font-weight:bold;">纯果汁🍊橘子软糖｜Q弹好吃不粘牙💖</p>
+        <p style="max-width:590px;font-weight:bold;">{{ note.noteTitle }}</p>
         <div class="editmod" style="bottom:4px;">
         </div>
       </h3>
       <div class="author clearfix">
         <div class="author-img">
           <a href="/u/u18902180926496">
-            <img src="https://tx1.douguo.com/upload/photo/1/c/f/70_1cbf979a4d227078d849be4a9eba7b5f.jpg" alt="">
+            <img :src="noteAuthor.avatar" alt="">
           </a>
         </div>
         <div class="author-info">
           <h3 style="width: auto;max-width: 372px;margin-right: 20px; margin-top: 0px">
-            <a href="/u/u18902180926496">倚窗看花开</a>
+            <a href="/u/u18902180926496">{{ noteAuthor.username }}</a>
           </h3>
           <a class="gz" href="javascript:;" data-action="add" onclick=" guanzhu(this,'26590119','nBrgHF2v2CLo4RSDBGGnqqnnBOX5u6DZmUBSAzEQ','0') "><span class="addicon">＋</span> 关注</a>
         </div>
         <div class="fav-share clearfix" >
-          <span class="not-like" data-like="like"  onclick="setLike(31468114,this,'nBrgHF2v2CLo4RSDBGGnqqnnBOX5u6DZmUBSAzEQ')" style="border:1px solid #FFB31A;color: #FFB31A; ">285</span>
+          <span class="not-like" data-like="like"  onclick="setLike(31468114,this,'nBrgHF2v2CLo4RSDBGGnqqnnBOX5u6DZmUBSAzEQ')" style="border:1px solid #FFB31A;color: #FFB31A; ">{{ note.likes }}</span>
           <a style="margin-left: 10px" href="javascript:;" onclick=" setFavorite('31468114',this) " data-favorite="unFavorite">收藏</a>
         </div>
       </div>
@@ -34,22 +34,9 @@
     <div class="note-content">
 
       <div class="note-info">
-        春节宅家自制纯果汁橘子软糖，酸酸甜甜，软软糯糯，Q弹又不粘牙，好好吃呢😀😋
-        简单易做，友友们动手做起来吧😘😘😘
-        --🍊🍊--
-        📝食材准备：
-        玉米糖浆250g｜橘子汁340g｜白砂糖50g｜黄油40g｜玉米淀粉40g｜清水40g｜柠檬汁8g
-        --🍊🍊--
-        📝制作步骤：
-        1⃣砂糖桔剥皮榨成汁，过滤两次，取340g备用。
-        2⃣40g玉米淀粉加40g清水搅拌均匀成水淀粉备用。
-        3⃣不粘锅内倒入250g玉米糖浆，50g白砂糖，340g橘子汁，开大火煮沸。
-        4⃣加入40g黄油和8g柠檬汁，转中小火，待黄油融化后，水淀粉再搅拌均匀一下，边倒入边搅拌。
-        5⃣加热搅拌至浓稠，刮刀翻拌能抱团，不粘锅底，提起刮刀果酱呈三角形，略滴落状态即可。
-        6⃣倒入做雪花酥的塑料模具中，也可倒在铺上油纸的任意盘中，按压紧实平整。
-        7⃣放冰箱冷藏定型后拿出，切成小方块。其实这橘子软糖甜度很够了，无需再裹糖。橘子糖软了再吸收外层的糖，更加软得不成型。</div>
+       {{note.description}}</div>
 
-      <div class="other-info">创建时间:1小时前 · 浙江 </div>
+      <div class="other-info">{{note.createTime}}</div>
 
     </div>
     <!--评论-->
@@ -65,13 +52,46 @@
 </template>
 
 <script>
+import NoteApi from "../../api/note"
 export default {
   name: "CookDetail",
   data(){
+
 return{
-  items:[],
+  id:'',
+  note:'',
+      noteAuthor:'',
+
+
+  items:[{picture:''},{picture:''},{picture:''},{picture:''}],
     };
+
   },
+  created(){
+    this.id='2';
+    this.getNoteDetail();
+    this.getNoteAuthorInfo();
+  },
+  methods:{
+    async getNoteDetail() {
+      let res = await NoteApi.getNoteDetail({id:this.id});
+      res = res.data;
+      if (res.code == 200) {
+        this.note = res.data;
+        this.picture=res.data.picture1;
+        console.log(res.data.picture1);
+      }
+    },
+    async getNoteAuthorInfo() {
+      let res = await NoteApi.getNoteAuthorInfo({id:this.id});
+      res = res.data;
+      if (res.code == 200) {
+        this.noteAuthor = res.data;
+        console.log(res.data);
+      }
+    },
+
+  }
 }
 </script>
 

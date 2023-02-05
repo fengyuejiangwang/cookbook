@@ -11,7 +11,7 @@
     <a href="/u/u87931697725071" class="user-head" target="_blank">
       <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
     </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">{{ getusername(item.userId) }}</a>
+    <a href="/u/u87931697725071" class="user-name" target="_blank">{{   getusername(item.userId) }}</a>
     <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
   </div>
   </div>
@@ -41,7 +41,6 @@ export default {
   data () {
     return {
       count:0,
-      realname:"",
       noteList: [],
       pageInfo: {
         pageNo: 1,
@@ -73,7 +72,7 @@ export default {
       res=res.data;
       console.log(res.data.realName);
       if(res.success){
-        this.realname= res.data.realName;
+        return res.data.realName
 
       }
     },

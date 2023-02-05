@@ -4,7 +4,9 @@ package com.jxnu.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jxnu.entity.Cook;
 import com.jxnu.entity.Note;
+import com.jxnu.entity.User;
 import com.jxnu.service.INoteService;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
@@ -43,6 +45,22 @@ public class NoteController {
       return Result.error().message("获取物资信息失败");
 
   }
+    @PostMapping("/notedetail")
+    public  Result getNoteDetail(@RequestBody Note note){
+        Note note1 = iNoteService.getNoteDetail(note.getId());
+        if(!ObjectUtils.isEmpty(note1)){
+            return Result.ok(note1).message("获取菜谱详细信息成功");
+        }
+        return Result.error().message("获取菜谱详细信息失败");
+    }
+    @PostMapping("/noteauthorinfo")
+    public  Result getNoteAuthorInfo(@RequestBody Note note){
+        User user= iUserService.findUserById(iNoteService.getUserId(note));
+        if(!ObjectUtils.isEmpty(user)){
+            return Result.ok(user).message("获取菜谱作者信息成功");
+        }
+        return Result.error().message("获取菜谱作者信息失败");
+    }
   @GetMapping("/hotnote")
     public Result getHotNote(){
       List<Note> noteList = iNoteService.getHotNote();

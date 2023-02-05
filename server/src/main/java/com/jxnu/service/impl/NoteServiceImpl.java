@@ -23,6 +23,7 @@ import java.util.List;
 @Service
 public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements INoteService {
 
+     private NoteMapper noteMapper;
     public List<Note> getHotNote() {
         QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
         queryWrapper.orderByDesc("likes")
@@ -41,5 +42,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     public IPage<Note> findNoteList(IPage<Note> page, NoteQueryVo noteQueryVo) {
         QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
         return baseMapper.selectPage(page,queryWrapper);
+    }
+    @Override
+    public Note getNoteDetail(Long id) {
+        QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        return baseMapper.selectOne(queryWrapper);
     }
 }
