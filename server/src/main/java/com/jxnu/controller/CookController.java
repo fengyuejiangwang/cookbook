@@ -68,5 +68,12 @@ public class CookController {
         }
         return Result.error().message("获取菜谱用料信息失败");
     }
-
+    @PostMapping("/uploadcook")
+    public Result uploadcook(@RequestBody Cook cook){
+        boolean isSave = icookService.save(cook);
+        if(isSave){
+            return Result.ok().message("菜谱发布成功！");
+        }
+            return Result.error().message("菜谱发布失败");
+    }
 }

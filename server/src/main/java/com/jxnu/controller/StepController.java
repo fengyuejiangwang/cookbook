@@ -3,7 +3,9 @@ package com.jxnu.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jxnu.entity.Cook;
+import com.jxnu.entity.Material;
 import com.jxnu.entity.Step;
+import com.jxnu.service.IMaterialService;
 import com.jxnu.service.IStepService;
 import com.jxnu.utils.Result;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +37,13 @@ public class StepController {
             return Result.ok(stepList).message("获取菜谱步骤信息成功");
         }
         return Result.error().message("获取菜谱步骤信息失败");
+    }
+    @PostMapping("/uploadstep")
+    public Result uploadMaterial(@RequestBody Step step){
+        boolean isSave = iStepService.save(step);
+        if(isSave){
+            return Result.ok().message("菜谱发布成功！");
+        }
+        return Result.error().message("菜谱发布失败");
     }
 }

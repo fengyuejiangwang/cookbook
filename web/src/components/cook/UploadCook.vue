@@ -74,9 +74,9 @@
         :show-file-list="false"
         :on-success="handleCoverSuccess"
         :before-upload="beforeCoverUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="step">
+        <img v-if="o.imageUrl" :src="o.imageUrl" class="step">
         <i v-else class="el-icon-plus step_uploader_icon"></i>
-        <div class="tiptxt" v-if="!imageUrl">添加步骤图</div>
+        <div class="tiptxt" v-if="!o.imageUrl">添加步骤图</div>
       </el-upload>
          </el-col>
          <el-col :span="15"  style="margin-left: 10px;margin-top: 20px">
@@ -160,7 +160,8 @@ export default {
           placeholder4:'',
         },],
       inputList2:[{ inputId:1,
-                   textarea:'',
+                    imageUrl: '',
+                    textarea:'',
       }
       ],
       options1: [{
@@ -306,7 +307,8 @@ export default {
     },
     async uploadCook(){
       let res = await cookApi.uploadCookInfo(
-        {cookTitle:this.inputName,
+        {
+                cookTitle:this.inputName,
                 cover:this.imageUrl,
                 diff:this.value1,
                 cookTime:this.value2,
@@ -316,16 +318,24 @@ export default {
                 status:1,
       });
       res = res.data;
-      let res2 = await materialApi.uploadMaterial(
-        {cookId:res.data.id,
-
-        });
-      res2 = res2.data;
-      let res3 = await stepApi.uploadStep(
-        {
-
-        });
-      res3= res3.data;
+      for(let i=0;i<this.inputList.length;i++) {
+        let res2 = await materialApi.uploadMaterial(
+          {
+            cookId: res.data.id,
+            foodName:this.inputList[i].inputLiao,
+            consumption:this.inputList[i].inputLiang,
+          });
+        res2 = res2.data;
+      }
+      for(let i=0;i<this.inputList2.length;i++) {
+        let res3 = await stepApi.uploadStep(
+          {
+            cookId: res.data.id,
+            picture:inputList2[i].imageUrl,
+            description:inputList2[i].textarea,
+          });
+        res3 = res3.data;
+      }
       if (res.code == 200&&res2.code==200&&res3.code==200) {
         this.$message.success(res.message);
       }
