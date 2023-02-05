@@ -2,11 +2,10 @@ package com.jxnu.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jxnu.entity.Cook;
-import com.jxnu.entity.FoodItem;
+import com.jxnu.entity.Material;
 import com.jxnu.entity.User;
 import com.jxnu.service.ICookService;
-import com.jxnu.service.IFoodItemService;
-import com.jxnu.service.IFoodService;
+import com.jxnu.service.IMaterialService;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +31,7 @@ public class CookController {
     @Resource
     private IUserService iUserService;
     @Resource
-    private IFoodService iFoodService;
-    @Resource
-    private IFoodItemService iFoodItemService;
+    private IMaterialService iMaterialService;
     @GetMapping ("/dailyhotcook")
     public  Result getDailyHotCook(){
        List<Cook> cookList = icookService.getDailyHotCook();
@@ -65,13 +62,9 @@ public class CookController {
     }
     @PostMapping("/material")
     public  Result getMaterial(@RequestBody Cook cook){
-        List<FoodItem> foodItemList= iFoodItemService.findMaterialByCookId(cook.getId());
-        Map<String,String> map=new HashMap<>();
-        for (int i=0;i<foodItemList.size();i++){
-            map.put(iFoodService.findFoodInfoById(foodItemList.get(i).getFoodId()).getName(),foodItemList.get(i).getConsumption());
-        }
-        if(!ObjectUtils.isEmpty(map)){
-            return Result.ok(map).message("获取菜谱用料信息成功");
+        List<Material> foodItemList= iMaterialService.findMaterialByCookId(cook.getId());
+        if(!ObjectUtils.isEmpty(foodItemList)){
+            return Result.ok(foodItemList).message("获取菜谱用料信息成功");
         }
         return Result.error().message("获取菜谱用料信息失败");
     }

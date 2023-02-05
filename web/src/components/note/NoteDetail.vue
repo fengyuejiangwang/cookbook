@@ -1,8 +1,8 @@
 <template>
   <div id="left" class="mt30">
     <el-carousel trigger="click">
-      <el-carousel-item v-for="(item,index) in items" :key="item">
-        <el-image :src="item.picture" ></el-image>
+      <el-carousel-item v-for="(item,index) in noteImg" :key="item">
+        <el-image :src="item" ></el-image>
       </el-carousel-item>
     </el-carousel>
     <!--作者-->
@@ -54,16 +54,14 @@
 <script>
 import NoteApi from "../../api/note"
 export default {
-  name: "CookDetail",
+  name: "NoteDetail",
   data(){
 
 return{
   id:'',
   note:'',
-      noteAuthor:'',
-
-
-  items:[{picture:''},{picture:''},{picture:''},{picture:''}],
+  noteImg:[],
+  noteAuthor:'',
     };
 
   },
@@ -78,8 +76,14 @@ return{
       res = res.data;
       if (res.code == 200) {
         this.note = res.data;
-        this.picture=res.data.picture1;
-        console.log(res.data.picture1);
+        if(this.note.picture1!='')
+          this.noteImg.push(this.note.picture1);
+        if(this.note.picture2!='')
+          this.noteImg.push(this.note.picture2);
+        if(this.note.picture3!='')
+          this.noteImg.push(this.note.picture3);
+        if(this.note.picture4!='')
+          this.noteImg.push(this.note.picture4);
       }
     },
     async getNoteAuthorInfo() {
@@ -87,7 +91,6 @@ return{
       res = res.data;
       if (res.code == 200) {
         this.noteAuthor = res.data;
-        console.log(res.data);
       }
     },
 

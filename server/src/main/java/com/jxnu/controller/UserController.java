@@ -31,13 +31,13 @@ public class UserController {
         }
         return Result.error().message("获取美食达人信息失败");
     }
-    @PostMapping("/getusername")
-    public Result getUserName(@RequestBody User user){
+    @PostMapping("/getuser")
+    public Result getUser(@RequestBody User user){
         User username = iUserService.findUserById(user.getId());
         if(!ObjectUtils.isEmpty(username)){
-            return Result.ok(username).message("获取美食达人信息成功");
+            return Result.ok(username).message("获取用户信息成功");
         }
-        return Result.error().message("获取美食达人信息失败");
+        return Result.error().message("获取用户信息失败");
 
     }
 }

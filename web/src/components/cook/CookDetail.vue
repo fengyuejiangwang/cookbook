@@ -42,12 +42,14 @@
      <table width="690" border="0" cellspacing="0" cellpadding="0" class="retamr br8 table">
        <tbody><tr v-for="count in parseInt(((materials.length+1)/2))">
          <td class="lirre" style="border-top:0;">
-           <span class="scname"><router-link to="" >{{materials[2*count-2][0]}}</router-link></span>
-           <span class="right scnum">{{materials[2*count-2][1]}}</span>
+           <span class="scname" v-if="materials[2*count-2].foodId!=''"><router-link to="">{{materials[2*count-2].foodName}}</router-link></span>
+           <span class="scname" v-else>{{materials[2*count-2].foodName}}</span>
+           <span class="right scnum">{{materials[2*count-2].consumption}}</span>
          </td>
          <td style="border-top:0;" v-if="2*count-1<=materials.length-1">
-           <span class="scname"><router-link to="" target="_blank">{{materials[2*count-1][0]}}</router-link></span>
-           <span class="right scnum">{{materials[2*count-1][1]}}</span>
+           <span class="scname" v-if="materials[2*count-1].foodId!=''"><router-link to="" target="_blank">{{materials[2*count-1].foodName}}</router-link></span>
+           <span class="scname" v-else>{{materials[2*count-1].foodName}}</span>
+           <span class="right scnum">{{materials[2*count-1].consumption}}</span>
          </td>
          <td style="border-top:0;" v-else>
            <span class="scname"></span>
@@ -188,8 +190,7 @@ export default {
       let res = await cookApi.getMaterialInfo({id:this.id});
       res = res.data;
       if (res.code == 200) {
-        this.materials = Object.entries(res.data);
-        console.log(this.materials);
+        this.materials = res.data;
       }
     },
     async getStepInfo() {

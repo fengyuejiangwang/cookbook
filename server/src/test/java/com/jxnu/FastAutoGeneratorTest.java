@@ -22,7 +22,7 @@ public class FastAutoGeneratorTest {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D://workSpace//cookbook//server//src//main//resources//mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("step") // 设置需要生成的表名
+                    builder.addInclude("material") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_")// 设置过滤表前缀
                             .controllerBuilder()
                             .enableRestStyle()

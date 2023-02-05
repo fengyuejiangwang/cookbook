@@ -5,7 +5,10 @@ import Login from "../components/user/Login";
 import Register from "../components/user/Register";
 import Home from "../components/Home";
 import UploadCook from "../components/cook/UploadCook";
+import Cook from "../components/cook/Cook";
+import Note from "../components/note/Note"
 import CookDetail from "../components/cook/CookDetail";
+import NoteDetail from "../components/note/NoteDetail";
 import UserProfile from "../components/user/UserProfile";
 import User from "../components/user/User"
 Vue.use(Router);
@@ -34,10 +37,28 @@ export default new Router({
           component: UploadCook,
         },
         {
+          path: '/cook',
+          name:'所有菜谱',
+          meta:{title: '所有菜谱'},
+          component: Cook,
+        },
+        {
           path: '/cookdetail',
           name:'菜谱详情',
           meta:{title: '菜谱详情'},
           component: CookDetail,
+        },
+        {
+          path: '/note',
+          name:'所有笔记',
+          meta:{title: '所有笔记'},
+          component: Note,
+        },
+        {
+          path: '/notedetail',
+          name:'笔记详情',
+          meta:{title: '笔记详情'},
+          component: NoteDetail,
         },
         {
           path: '/user',

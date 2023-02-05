@@ -11,7 +11,7 @@
     <a href="/u/u87931697725071" class="user-head" target="_blank">
       <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
     </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">{{   getusername(item.userId) }}</a>
+    <a href="/u/u87931697725071" class="user-name" target="_blank">{{getUser(item.userId).then(getUser(item.userId))}}</a>
     <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
   </div>
   </div>
@@ -50,30 +50,26 @@ export default {
     }
   },
   created() {
-
-    this.getlist();
+    this.getNoteList();
   },
   methods: {
     load () {
       this.count += 2
     },
-    async getlist() {
+    async getNoteList() {
       let res = await noteApi.getNoteList({pageNo: this.pageInfo.pageNo, pageSize: this.pageInfo.pageSize});
       res = res.data;
-      console.log(res);
       if (res.success) {
         this.noteList = res.data.records;
         this.pageInfo.total = res.data.total;
-
       }
     },
-    async getusername(val){
-      let res=await userApi.getUserName({Id:val});
+    async getUser(id){
+      let res= await userApi.getUser({Id:id});
       res=res.data;
-      console.log(res.data.realName);
       if(res.success){
-        return res.data.realName
-
+        console.log(res.data.username);
+        return res.data.username;
       }
     },
     // 页面数量改变后查询处理

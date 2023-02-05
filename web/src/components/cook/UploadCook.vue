@@ -115,11 +115,14 @@
       <img src="https://www.douguo.com/captcha" alt="" style="height: 40px;
   margin-left: 20px;vertical-align: bottom;">
     </el-row>
-    <el-button style="background-color: #84b92c;color: white;width: 168px;height: 42px;margin-top: 20px;margin-bottom: 20px" >发布</el-button>
+    <el-button @click="uploadCook()" style="background-color: #84b92c;color: white;width: 168px;height: 42px;margin-top: 20px;margin-bottom: 20px" >发布</el-button>
   </el-form>
   </div>
 </template>
 <script>
+import cookApi from "../../api/cook";
+import materialApi from "../../api/material";
+import stepApi from "../../api/step";
 export default {
   name: "UploadCook",
   data() {
@@ -282,7 +285,52 @@ export default {
     },
     handleCoverSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-    }
+    },
+    getNowTime()//获取当前时间
+    {
+      let date = new Date();
+      //年 getFullYear()：四位数字返回年份
+      let year = date.getFullYear();  //getFullYear()代替getYear()
+      //月 getMonth()：0 ~ 11
+      let month = date.getMonth() + 1;
+      //日 getDate()：(1 ~ 31)
+      let day = date.getDate();
+      //时 getHours()：(0 ~ 23)
+      let hour = date.getHours();
+      //分 getMinutes()： (0 ~ 59)
+      let minute = date.getMinutes();
+      //秒 getSeconds()：(0 ~ 59)
+      let second = date.getSeconds();
+      let time = year + '-' + this.addZero(month) + '-' + this.addZero(day) + ' ' + this.addZero(hour) + ':' + this.addZero(minute) + ':' + this.addZero(second);
+      return time;
+    },
+    async uploadCook(){
+      let res = await cookApi.uploadCookInfo(
+        {cookTitle:this.inputName,
+                cover:this.imageUrl,
+                diff:this.value1,
+                cookTime:this.value2,
+                description:this.textarea,
+                skill:this.textarea3,
+                createTime:this.getNowTime(),
+                status:1,
+      });
+      res = res.data;
+      let res2 = await materialApi.uploadMaterial(
+        {cookId:res.data.id,
+
+        });
+      res2 = res2.data;
+      let res3 = await stepApi.uploadStep(
+        {
+
+        });
+      res3= res3.data;
+      if (res.code == 200&&res2.code==200&&res3.code==200) {
+        this.$message.success(res.message);
+      }
+    },
+
   }
 }
 </script>

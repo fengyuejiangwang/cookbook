@@ -12,4 +12,7 @@ export default {
   async getMaterialInfo(params) {
     return await http.post("cook/material", params);
   },
+  async uploadCookInfo(params) {
+    return await http.post("cook/uploadcookinfo", params);
+  },
 };
