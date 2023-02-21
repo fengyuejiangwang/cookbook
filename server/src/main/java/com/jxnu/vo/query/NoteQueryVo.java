@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class NoteQueryVo extends Note {
     private Long pageNo=1L;
-    private Long pageSize=9L;
+    private Long pageSize=8L;
 }

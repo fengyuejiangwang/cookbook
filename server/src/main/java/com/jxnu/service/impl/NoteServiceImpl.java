@@ -22,8 +22,6 @@ import java.util.List;
  */
 @Service
 public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements INoteService {
-
-     private NoteMapper noteMapper;
     public List<Note> getHotNote() {
         QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
         queryWrapper.orderByDesc("likes")

@@ -1,8 +1,8 @@
 <template>
   <div id="left" class="mt30">
     <el-carousel trigger="click">
-      <el-carousel-item v-for="(item,index) in noteImg" :key="item">
-        <el-image :src="item" ></el-image>
+      <el-carousel-item  v-for="(item,index) in noteImg" :key="item">
+        <el-image :src="item"  style="width: 800px;height: 300px"></el-image>
       </el-carousel-item>
     </el-carousel>
     <!--作者-->
@@ -66,7 +66,7 @@ return{
 
   },
   created(){
-    this.id='2';
+    this.id=this.$route.query.id;
     this.getNoteDetail();
     this.getNoteAuthorInfo();
   },
@@ -106,8 +106,9 @@ body{
   padding-top: 60px;
 }
 #left {
-  width: 690px;
+  width:800px;
   float: left;
+  margin-left: 100px;
 }
 .mt30 {
   margin-top: 30px;

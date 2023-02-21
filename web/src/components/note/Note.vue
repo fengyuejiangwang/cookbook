@@ -4,10 +4,10 @@
 <rol style="margin-left: 50px" v-for="(item,index) in noteList" :key="item">
   <div class="note-list">
   <div class="note">
-    <a class="note-cover" href="/dish/31407977" target="_blank" style="display:inline-block;width:240px;height:319.875px">
+    <a class="note-cover" @click="click(item.id)" target="_blank" style="display:inline-block;width:240px;height:319.875px">
       <img :src="item.picture1" alt="" height="319.875">
     </a>            <div class="note-info clearfix">
-    <a href="/dish/31407977" class="note-name" target="_blank" style="height: 40px">{{ item.noteTitle }}</a>
+    <a @click="click(item.id)" class="note-name" target="_blank" style="height: 40px">{{ item.noteTitle }}</a>
     <a href="/u/u87931697725071" class="user-head" target="_blank">
       <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
     </a>
@@ -44,7 +44,7 @@ export default {
       noteList: [],
       pageInfo: {
         pageNo: 1,
-        pageSize: 9,
+        pageSize: 8,
         total: 0,
       },
     }
@@ -53,8 +53,8 @@ export default {
     this.getNoteList();
   },
   methods: {
-    load () {
-      this.count += 2
+    click(vall){
+      this.$router.push({name: "笔记详情", query: {id: vall}})
     },
     async getNoteList() {
       let res = await noteApi.getNoteList({pageNo: this.pageInfo.pageNo, pageSize: this.pageInfo.pageSize});
@@ -74,13 +74,15 @@ export default {
     },
     // 页面数量改变后查询处理
     handleSizeChange(val) {
+      console.log(val);
       this.pageinfo.pageSize = val;
-       this.getlist();
+       this.getNoteList();
     },
     // 页码改变后查询处理
     handleCurrentChange(val) {
+      console.log(val);
       this.pageInfo.pageNo = val;
-      this.getlist();
+      this.getNoteList();
     }
   }
 }
