@@ -45,4 +45,11 @@ public class CookServiceImpl extends ServiceImpl<CookMapper, Cook> implements IC
         return cookMapper.selectOne(queryWrapper);
     }
 
+    @Override
+    public Cook getLastCook() {
+        QueryWrapper<Cook> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        return cookMapper.selectOne(queryWrapper.last("limit 1"));
+    }
+
 }

@@ -3,9 +3,17 @@
   margin: 0 auto;margin-top: 30px">
  <div id="left">
   <div class="relative">
-    <div id="banner" class="cboxElement cboxElement1" data-origin="https://cp1.douguo.com/upload/caiku/8/8/0/yuan_88abe3bcf16331749877132629ad3970.jpg" data-snum="1" href="javascript:void(0);" rel="recipe_img">
-      <router-link to="">
-        <img class="wb100" :src="cook.cover" >
+    <div id="banner" class="cboxElement cboxElement1">
+        <el-image
+          style="
+           max-width: 720px;
+           max-height: 600px;"
+          :src="cook.cover"
+          :preview-src-list="srcList">
+        </el-image>
+      <router-link  v-if="cook.video" to="/"  style="display:inline-block;position: absolute;bottom: 169px;right: 319px;width: 52px;
+                ;cursor: pointer; z-index: 3">
+        <img style="width:52px;display:block;" src="https://cp1.douguo.com/static/nweb/images/video_icon.png">
       </router-link>
     </div>
   </div>
@@ -62,9 +70,15 @@
    <el-row style="display: flex;flex-direction: column" >
      <h2 class="mini-title">{{cook.cookTitle}}的做法</h2>
      <div class="stepcont clearfix" v-for="(o, index) in steps"  :key="o">
-       <a class="cboxElement cboxElement2" data-snum="2" >
-         <img class="br8" :src="o.picture"  width="200" height="200">
-       </a>
+       <router-link to="">
+       <el-image
+          style="width: 200px;
+          height: 200px;"
+         :src="o.picture"
+         :preview-src-list="srcList"
+          fit="cover">
+       </el-image>
+       </router-link>
        <div class="stepinfo">
          <p>步骤{{index+1}}</p>
          {{o.description}}
@@ -162,6 +176,11 @@ export default {
       author:'',
       materials:[],
       steps:[],
+      srcList:[],
+      imgStyle:{
+        maxWidth:'720px',
+        maxHeight:'600px'
+      }
     };
   },
   created(){
@@ -177,6 +196,7 @@ export default {
       res = res.data;
       if (res.code == 200) {
         this.cook = res.data;
+        this.srcList.push(this.cook.cover);
       }
     },
     async getAuthorInfo() {
@@ -198,6 +218,8 @@ export default {
       res = res.data;
       if (res.code == 200) {
         this.steps = res.data;
+        for(let i=0;i<this.steps.length;i++)
+          this.srcList.push(this.steps[i].picture);
       }
     },
   }
@@ -217,6 +239,12 @@ body{
   height: 390px;
   overflow: hidden;
   border-radius: 8px;
+}
+
+.text-lips {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .rinfo {
   margin-top: 20px;

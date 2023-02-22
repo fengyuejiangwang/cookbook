@@ -1,6 +1,6 @@
 import http from "../utils/request";
 export default {
   async uploadMaterial(params) {
-    return await http.post("material/uploadMaterial");
+    return await http.post("material/uploadmaterial",params);
   },
 }

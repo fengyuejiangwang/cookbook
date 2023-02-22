@@ -36,4 +36,13 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements IF
                 .orderByAsc("id");
         return foodMapper.selectList(queryWrapper.last("limit 12"));
     }
+
+    @Override
+    public Food findFoodByFoodName(String foodName) {
+        QueryWrapper<Food> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("name",foodName)
+                .or()
+                .eq("cname",foodName);
+        return foodMapper.selectOne(queryWrapper);
+    }
 }

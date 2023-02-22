@@ -1,9 +1,9 @@
 <template>
   <div id="header" class="">
     <div class="header clearfix">
-      <a class="logo left" href="/"><img src="../../assets/logo.png" alt=""></a>
+      <router-link class="logo left" to="/index"><img src="../../assets/logo.png" alt=""></router-link>
       <ul class="nav">
-        <li class="act"><a href="http://www.douguo.com">首页</a></li>
+        <li class="act"><router-link to="/index">首页</router-link></li>
         <li class="relative" @mouseover="cookShow=!cookShow" @mouseout="cookShow=!cookShow">
           <router-link to="/cook" class="cookLi">菜谱 <span class="naww"></span></router-link>
           <div class="ctip" v-show="cookShow" >

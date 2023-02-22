@@ -17,4 +17,6 @@ public interface ICookService extends IService<Cook> {
     public List<Cook> getDailyHotCook();
     public Long getUserId(Cook cook);
     public Cook getCookDetail(Long id);
+
+    Cook getLastCook();
 }

@@ -39,8 +39,8 @@ public class StepController {
         return Result.error().message("获取菜谱步骤信息失败");
     }
     @PostMapping("/uploadstep")
-    public Result uploadMaterial(@RequestBody Step step){
-        boolean isSave = iStepService.save(step);
+    public Result uploadMaterial(@RequestBody List<Step> stepList){
+        boolean isSave = iStepService.saveBatch(stepList);
         if(isSave){
             return Result.ok().message("菜谱发布成功！");
         }

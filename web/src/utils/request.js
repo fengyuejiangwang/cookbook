@@ -1,4 +1,6 @@
 import axios from "axios";
+import files from "../api/files";
+import {data} from "autoprefixer";
 
 // create an axios instance
 const service = axios.create({
@@ -18,6 +20,25 @@ const http = {
       ],
       headers: {
         "Content-Type": "application/json"
+      }
+    });
+  },
+  post2(url, params) {
+    return service.post(url, params, {
+      transformRequest: [
+        // 将请求参数转换成form-data格式
+        params => {
+          let _params =  new FormData();
+          params.forEach(
+            file =>{
+              _params.append("files", file);
+            }
+          );
+          return _params;
+        }
+      ],
+      headers: {
+        "Content-Type": "multipart/form-data"
       }
     });
   },

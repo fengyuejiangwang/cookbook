@@ -18,4 +18,6 @@ public interface IFoodService extends IService<Food> {
     Food findFoodInfoById(Long id);
 
     List<Food> getHotFood();
+
+    Food findFoodByFoodName(String foodName);
 }
