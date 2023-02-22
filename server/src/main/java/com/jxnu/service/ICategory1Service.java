@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ICategory1Service extends IService<Category1> {
 
+    Long findCategoryByType(String type);
 }

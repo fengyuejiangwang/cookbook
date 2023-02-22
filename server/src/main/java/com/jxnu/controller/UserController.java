@@ -40,4 +40,14 @@ public class UserController {
         return Result.error().message("获取用户信息失败");
 
     }
+    @PostMapping("/getuserlist")
+    public Result getUser(@RequestBody List<User> userList){
+        List<User> usernameList = iUserService.findUserListById(userList);
+
+        if(!ObjectUtils.isEmpty(usernameList)){
+            return Result.ok(usernameList).message("获取用户信息成功");
+        }
+        return Result.error().message("获取用户信息失败");
+
+    }
 }

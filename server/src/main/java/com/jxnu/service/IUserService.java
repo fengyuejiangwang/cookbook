@@ -17,4 +17,5 @@ public interface IUserService extends IService<User> {
     User findUserById(Long id);
     List<User> getGourmetDaren();
 
+    List<User> findUserListById(List<User> userList);
 }

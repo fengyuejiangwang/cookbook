@@ -251,9 +251,6 @@ body{
   padding: 9px 0 40px;
 }
 
-.relative {
-  position: relative;
-}
 .rinfo .title {
   font-size: 22px;
   color: #333;

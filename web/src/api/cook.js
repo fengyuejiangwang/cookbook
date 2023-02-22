@@ -15,4 +15,10 @@ export default {
   async uploadCookInfo(params) {
     return await http.post("cook/uploadcookinfo", params);
   },
+  async getCookList(params) {
+    return await http.post("cook/cooklist",params);
+  },
+  async getCookListByType(params) {
+    return await http.post("cook/cooklistbytype",params);
+  },
 };
