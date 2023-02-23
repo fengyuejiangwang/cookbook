@@ -5,9 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jxnu.entity.User;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,4 +54,17 @@ public class UserController {
         return Result.error().message("获取用户信息失败");
 
     }
+    @PostMapping("/login")
+    public Result login(@RequestBody User user, HttpSession session) {
+        boolean exists = iUserService.checkLogin(user);
+        if (exists) {
+            User user1 = iUserService.findUserList(user);
+            System.out.println(user1);
+            return Result.ok(user1).message("登录成功！");
+        }
+        return Result.error().message("用户名或密码错误");
+    }
+
+
+
 }

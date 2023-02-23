@@ -9,4 +9,7 @@ export default {
   async getUserList(params) {
     return await http.post("user/getuserlist",params);
   },
+  async login(params) {
+    return await http.post("user/login", params);
+  },
 };

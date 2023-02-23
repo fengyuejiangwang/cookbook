@@ -18,4 +18,8 @@ public interface IUserService extends IService<User> {
     List<User> getGourmetDaren();
 
     List<User> findUserListById(List<User> userList);
+
+    boolean checkLogin(User user);
+
+    User findUserList(User user);
 }

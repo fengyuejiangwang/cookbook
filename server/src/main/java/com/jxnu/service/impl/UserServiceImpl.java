@@ -1,6 +1,7 @@
 package com.jxnu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jxnu.entity.User;
 import com.jxnu.mapper.UserMapper;
 import com.jxnu.service.IUserService;
@@ -50,4 +51,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return users;
     }
 
+    @Override
+    public boolean checkLogin(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(!ObjectUtils.isEmpty(user.getUsername()), "username", user.getUsername());
+        queryWrapper.eq(!ObjectUtils.isEmpty(user.getPassword()), "password", user.getPassword());
+        return baseMapper.exists(queryWrapper);
+    }
+
+    @Override
+    public User findUserList(User user) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(!ObjectUtils.isEmpty(user.getId()),"id",user.getId());
+        queryWrapper.eq(!ObjectUtils.isEmpty(user.getUsername()),"username",user.getUsername());
+        return baseMapper.selectOne(queryWrapper);
+    }
 }
