@@ -168,7 +168,7 @@
         <div class="pubt-box br8" v-show="releaseShow">
           <span class="arwwj"> </span>
           <router-link to="/uploadcook">发布菜谱</router-link>
-          <a href="/caidan/create">创建菜单</a>
+          <router-link to="/addMenu">创建菜单</router-link>
         </div>
       </div>
       <div v-if="loginSate" class="myinfo relative" @mouseover="myInfoShow=!myInfoShow" @mouseout="myInfoShow=!myInfoShow">
@@ -181,7 +181,7 @@
           <span class="arwwj"> </span>
           <router-link class="relative" to="">消息提醒</router-link>
           <router-link to="/userprofile">账号设置</router-link>
-          <router-link to="/" @click.native="exit()">退出</router-link>
+          <router-link to="/" @click.native="exit">退出</router-link>
         </div>
       </div>
       <div class="perinfo" v-else>

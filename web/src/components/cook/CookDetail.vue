@@ -25,9 +25,9 @@
        <div v-else style="display: inline-block"><span>{{cook.views}}</span> 浏览</div>
        <div v-if="cook.collections>10000" style="display: inline-block"><span class="collectnum">{{(cook.collections/10000).toFixed(1)}}</span> 万收藏</div>
        <div v-else style="display: inline-block"><span class="collectnum">{{cook.collections}}</span> 收藏</div>
-       <div class="absolute operate" @click="collect">
-         <a class="btn-collect" href="javascript:void(0);" @click="" v-if="!isCollect">收藏</a>
-         <a class="btn-collect" href="javascript:void(0);" @click="" v-else>已收藏</a>
+       <div class="absolute operate" >
+         <a class="btn-collect" href="javascript:void(0);" @click="" v-if="!isCollect" @click="collect(false)">收藏</a>
+         <a class="btn-collect" href="javascript:void(0);" @click="" v-else @click="collect(true)">已收藏</a>
        </div>
        <div id="coll-box" class="fancbox br4 relative" style="display:none;">
          <p class="title">收藏成功，选择加入的菜单</p>
@@ -47,9 +47,9 @@
          <div class="author-info left">
            <router-link :to="'/user?id='+(author.id)" class="nickname text-lips">{{author.username}}</router-link>
          </div>
-         <div style="display: inline-block" @click="attention">
-         <a class="gz" data-action="add" href="javascript:void(0)"  v-if="isAttention"><span class="addicon"></span>已关注</a>
-         <a class="gz" data-action="add" href="javascript:void(0)"   v-else><span class="addicon">＋</span> 关注</a>
+         <div style="display: inline-block">
+         <a class="gz" data-action="add" href="javascript:void(0)"  v-if="!isAttention" @click="attention(false)"><span class="addicon">+</span> 关注</a>
+         <a class="gz" data-action="add" href="javascript:void(0)"   v-else @click="attention(true)"><span class="addicon"></span>已关注</a>
          </div>
        </div>
      </div>
@@ -125,7 +125,7 @@
            <a class="name text-lips"  href="/cookbook/3227162.html" >酥皮大泡芙——自用多年零失败配方分享
            </a>
            <p class="author text-lips">by
-             <a class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; " target="_blank" href="/u/u86645476792551.html">累并-快乐
+             <a class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; "  href="/u/u86645476792551.html">累并-快乐
              </a>
            </p>
          </div>
@@ -180,13 +180,13 @@ import cookApi from "../../api/cook";
 import stepApi from "../../api/step";
 import commentApi from "../../api/comment"
 import userApi from "../../api/user";
-import likeApi from "../../api/likes";
+import likesApi from "../../api/likes";
 export default {
   name: "CookDetail",
   data(){
     return{
-      isCollect:false,
-      isAttention:false,
+      isCollect:'',
+      isAttention:'',
       id:'',
       cook:'',
       author:'',
@@ -211,6 +211,8 @@ export default {
     this.loginState=window.sessionStorage.getItem('loginState');
     this.getCookDetail();
     this.getComment();
+    this.judgeCollect();
+    this.judgeAttention();
   },
   methods: {
     click(){
@@ -297,28 +299,71 @@ export default {
            await this.getComment();
           }
     },
-    async collect(){
-      let res =await likeApi.collect({
-         followeeId:this.user.id,
-         cookId:this.id,
-         createTime:this.getNowTime(),
-      });
-      res=res.data;
-      if(res.success){
-        this.isCollect=true;
-      }
+    async judgeCollect(){
+          let res= await likesApi.judgeCollect({
+            followeeId:this.user.id,
+            cookId:this.id,
+          });
+          res=res.data;
+          if(res.success){
+              this.isCollect=res.data;
+          }
     },
-    async attention(){
-      let res =await likeApi.attention({
+    async judgeAttention(){
+      let res= await likesApi.judgeCollect({
         followeeId:this.user.id,
         followerId:this.cook.userId,
-        createTime:this.getNowTime(),
       });
       res=res.data;
       if(res.success){
-        this.isAttention=true;
+          this.isAttention=res.data;
       }
     },
+    async collect(flag){
+      if(!flag) {
+        let res = await likesApi.collect({
+          followeeId: this.user.id,
+          cookId: this.id,
+          createTime: this.getNowTime(),
+        });
+        res = res.data;
+        if (res.success) {
+          this.isCollect = res.data;
+        }
+      }else{
+        let res = await likesApi.deCollect({
+          followeeId: this.user.id,
+          cookId: this.id,
+        });
+        res = res.data;
+        if (res.success) {
+          this.isCollect = !res.data;
+        }
+      }
+     await this.getCookDetail();
+    },
+    async attention(flag){
+      if(!flag){
+       let res =await likesApi.attention({
+         followeeId:this.user.id,
+         followerId:this.cook.userId,
+         createTime:this.getNowTime(),
+       });
+       res=res.data;
+       if(res.success){
+         this.isAttention=res.data;
+       }
+    }else {
+        let res =await likesApi.deAttention({
+          followeeId:this.user.id,
+          followerId:this.cook.userId,
+        });
+        res=res.data;
+        if(res.success){
+          this.isAttention=!res.data;
+        }
+      }
+      },
   }
 }
 </script>

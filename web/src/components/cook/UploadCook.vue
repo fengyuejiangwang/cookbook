@@ -370,7 +370,6 @@ export default {
       })
     },
     handleCoverChange(file){
-      console.log(file.raw);
       const isJPG = file.raw.type === 'image/jpeg';
       const isPNG = file.raw.type === 'image/png';
       const isLt8M = file.raw.size / 1024 / 1024 < 8;
