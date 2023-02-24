@@ -81,5 +81,9 @@ public class User implements Serializable {
      */
     private Long noteCount;
 
+    /**
+     * 用户发布菜单数量
+     */
+    private Long menuCount;
 
 }

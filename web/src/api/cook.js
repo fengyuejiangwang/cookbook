@@ -21,4 +21,7 @@ export default {
   async getCookListByType(params) {
     return await http.post("cook/cooklistbytype",params);
   },
+  async getCookListByUerId(params) {
+    return await http.post("cook/cooklistbyuserid",params);
+  },
 };

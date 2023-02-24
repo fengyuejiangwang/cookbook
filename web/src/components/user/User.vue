@@ -1,7 +1,7 @@
 <template>
   <div id="content" class="clearfix">
     <div class="person-info clearfix mt30">
-      <router-link :to="'/user?id='+(user.id)" style="background: url(https://tx1.douguo.com/upload/photo/1/1/1/140_7171e40c70b2052bbf0a72a187633c6a.png) no-repeat center center;background-size:cover;" class="person-img left">
+      <router-link :to="'/user?id='+(user.id)" :style="'background:url('+user.avatar+') no-repeat center center;background-size:cover'" class="person-img left">
 
       </router-link>
       <div class="info left">
@@ -46,30 +46,125 @@
       </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="概览" name="first"><h3 class="mini-title">
+      <el-tab-pane label="概览" name="概览">
+        <div v-if="user.cookCount>0||user.MenuCount>0||user.NoteCount>0">
+        <div v-if="user.cookCount>0">
+        <h3 class="mini-title">
         <router-link to="/cook">
-          发布的菜谱 <span>(4)</span>
+          发布的菜谱 <span style="color: #999;
+    font-weight: normal;">({{user.cookCount}})</span>
         </router-link>
       </h3>
         <el-row>
-          <li class="left" v-for="(item,index) in 3" key="item" style="list-style: none">
-            <a class="cook-img relative" href="/cookbook/3239049.html" target="_blank">
-              <img src="https://cp1.douguo.com/upload/caiku/a/3/1/600_a312c12130609ecce02d9d6ea7f17f11.jpeg" alt="鸡爪煲">
-            </a>
-            <a class="cookname" href="/cookbook/3239049.html?f=sjmy" target="_blank">鸡爪煲</a>
-            <p><i class="read"></i> <span>7.3万</span><i class="star"></i> <span>872</span></p>
-
+          <li class="left" v-for="(item,index) in cookList" key="item" style="list-style: none;margin-bottom: 0">
+            <router-link class="cook-img relative" :to="'/cookdetail?id='+item.id">
+              <img :src="item.cover" :alt="item.cookTitle">
+            </router-link>
+            <router-link class="cookname" :to="'/cookdetail?id='+item.id">{{item.cookTitle}}</router-link>
+            <p><i class="read"></i>
+              <span v-if="item.views<10000">{{item.views}}</span>
+              <span v-else>{{(item.views/10000).toFixed(1)}}万</span>
+              <i class="star"></i>
+              <span v-if="item.collections<10000">{{item.collections}}</span>
+              <span v-else>{{(item.collections/10000).toFixed(1)}}万</span></p>
           </li>
           </el-row>
+        </div>
+        <div v-if="user.MenuCount>0">
+        <h3 class="mini-title">
+          <router-link to="/cook">
+            发布的菜单 <span style="color: #999;
+    font-weight: normal;">(4)</span>
+          </router-link>
+        </h3>
+        <ul class="menu-list clearfix">
+          <li>
+            <a href="/nccaidan/10592653.html?f=sjmy" target="_blank">
+              <img src="https://cp1.douguo.com/upload/caiku/0/c/e/400x266_0c562b4f7c5509de7d353878db0d61de.jpg" alt="asd">
+              <div class="des-menu">
+                <p class="name text-lips">asd</p>
+                <p class="rnum text-lips">2道菜谱</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        </div>
+        <div v-if="user.noteCount>0">
+        <h3 class="mini-title">
+          <router-link to="/cook">
+            发布的笔记 <span style="color: #999;
+    font-weight: normal;">({{user.noteCount}})</span>
+          </router-link>
+        </h3>
+        <rol style="margin-right: 25px" v-for="(item,index) in noteList" :key="item">
+          <div class="note-list">
+            <div class="note">
+              <router-link  :to="'/notedetail?id='+item.id" class="note-cover" style="display:inline-block;width:240px;height:250px">
+                <img :src="item.picture1" alt="" height="250" >
+              </router-link>
+              <div class="note-info clearfix">
+                <router-link  :to="'/notedetail?id='+item.id" class="note-name"  style="height: 40px">{{item.noteTitle}}</router-link>
+                <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
+              </div>
+            </div>
+          </div>
+        </rol>
+        </div>
+        </div>
+        <h3 class="not-menu" v-else>暂无数据～</h3>
+      </el-tab-pane >
+      <el-tab-pane label="菜谱" name="菜谱">
+        <el-row v-if="user.cookCount>0">
+            <li class="left" v-for="(item,index) in cookList" key="item" style="list-style: none;margin-bottom: 0">
+              <router-link class="cook-img relative" :to="'/cookdetail?id='+item.id">
+                <img :src="item.cover" :alt="item.cookTitle">
+              </router-link>
+              <router-link class="cookname" :to="'/cookdetail?id='+item.id">{{item.cookTitle}}</router-link>
+              <p><i class="read"></i>
+                <span v-if="item.views<10000">{{item.views}}</span>
+                <span v-else>{{(item.views/10000).toFixed(1)}}万</span>
+                <i class="star"></i>
+                <span v-if="item.collections<10000">{{item.collections}}</span>
+                <span v-else>{{(item.collections/10000).toFixed(1)}}万</span></p>
+            </li>
+      </el-row>
+        <h3 class="not-menu" v-else>暂无菜谱～</h3>
       </el-tab-pane>
-      <el-tab-pane label="菜谱" name="second"><h3 class="not-menu">暂无菜谱～</h3></el-tab-pane>
-      <el-tab-pane label="菜单" name="third"><h3 class="not-menu">暂无菜单～</h3></el-tab-pane>
-      <el-tab-pane label="笔记" name="fourth"><h3 class="not-menu">暂无笔记～</h3></el-tab-pane>
-      <el-tab-pane label="收藏" name="fifth"><div class="collect-type">
-        <a href="/u/u67996224849052/collect" class="one active">收藏的菜谱</a> |
-        <a href="/u/u67996224849052/collectd">收藏的菜单</a> |
-        <a href="/u/u67996224849052/collectnote">收藏的笔记</a>
-      </div><h3 class="not-menu">暂无收藏～</h3></el-tab-pane>
+      <el-tab-pane label="菜单" name="菜单">
+        <ul class="menu-list clearfix" v-if="user.menuCount>0">
+          <li>
+            <a href="/nccaidan/10592653.html?f=sjmy" target="_blank">
+              <img src="https://cp1.douguo.com/upload/caiku/0/c/e/400x266_0c562b4f7c5509de7d353878db0d61de.jpg" alt="asd">
+              <div class="des-menu">
+                <p class="name text-lips">asd</p>
+                <p class="rnum text-lips">2道菜谱</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <h3 class="not-menu" v-else>暂无菜单～</h3>
+      </el-tab-pane>
+      <el-tab-pane label="笔记" name="笔记">
+        <rol v-if="user.noteCount>0" style="margin-right: 25px" v-for="(item,index) in noteList" :key="item">
+          <div class="note-list">
+            <div class="note">
+              <router-link  :to="'/notedetail?id='+item.id" class="note-cover" style="display:inline-block;width:240px;height:250px">
+                <img :src="item.picture1" alt="" height="250" >
+              </router-link>
+              <div class="note-info clearfix">
+                <router-link  :to="'/notedetail?id='+item.id" class="note-name"  style="height: 40px">{{item.noteTitle}}</router-link>
+                <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
+              </div>
+            </div>
+          </div>
+        </rol>
+        <h3 class="not-menu" v-else>暂无笔记～</h3>
+      </el-tab-pane>
+      <el-tab-pane label="收藏" name="收藏"><div class="collect-type">
+        <router-link to="/u/u67996224849052/collect" class="one active">收藏的菜谱</router-link> |
+        <router-link to="/u/u67996224849052/collectd">收藏的菜单</router-link> |
+        <router-link to="/u/u67996224849052/collectnote">收藏的笔记</router-link>
+      </div><h3 class="not-menu">暂无菜单～</h3></el-tab-pane>
     </el-tabs>
     <p class="fcc" style="padding-top:60px;">
       你当前的位置：<a href="/" target="_blank">食为天美食</a> &gt; 个人中心
@@ -78,29 +173,208 @@
 </template>
 
 <script>
+import cookApi from '../../api/cook'
+import noteApi from '../../api/note'
 export default {
   name: "User",
   data(){
     return{
       user:'',
+      activeName:'概览',
+      cookList:[],
+      noteList:[],
+      type:'概览',
     }
   },
   created() {
     this.user=JSON.parse(window.sessionStorage.getItem("user"));
+    this.getCookListByUerId();
+    this.getNoteListByUerId();
+  },
+  methods:{
+    async getCookListByUerId(){
+      let res=await cookApi.getCookListByUerId({
+        userId:this.user.id
+      });
+      res=res.data;
+      if(res.success){
+        this.cookList=res.data;
+      }
+    },
+    async getNoteListByUerId(){
+      let res=await noteApi.getNoteListByUserId({
+        userId:this.user.id
+      });
+      res=res.data;
+      if(res.success){
+        this.noteList=res.data;
+      }
+    },
+    handleClick(tab){
+      this.type = tab.name;
+      if(this.type=="概览"){
+        this.getCookListByUerId();
+        this.getNoteListByUerId();
+      }
+      if(this.type=="菜谱"){ this.getCookListByUerId();}
+      if(this.type=="菜单"){}
+      if(this.type=="笔记"){this.getNoteListByUerId();}
+
+    }
   }
 }
 </script>
 
 <style scoped>
-.left {
+.des-menu .name {
+  font-weight: bold;
+  padding-top: 62px;
+  font-size: 20px;
+}
 
+.des-menu p {
+  width: 298px;
+  font-size: 15px;
+  color: #FFF;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.28);
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.text-lips {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.des-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.14);
+  text-align: center;
+}
+.menu-list img {
+  width: 100%;
+}
+
+img {
+  vertical-align: bottom;
+}
+.menu-list li {
+  width: 324px;
+  height: 182px;
+  border-radius: 8px;
+  float: left;
+  position: relative;
+  margin-right: 14px;
+  overflow: hidden;
+  margin-bottom: 34px;
+}
+.note-list {
+  display: inline-block;
+  width: 240px;
+  vertical-align: top;
+}
+.note-list .note {
+  margin-bottom: 20px;
+  position: relative;
+}
+element.style {
+  display: inline-block;
+  width: 240px;
+  height: 319.875px;
+}
+.note-list .note-cover {
+  background: #eee;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+.note-list a {
+  display: inline-block;
+  vertical-align: top;
+}
+a {
+  color: #333;
+  text-decoration: none;
+}
+.note-list img {
+  width: 240px;
+  vertical-align: top;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+.note-list .note-info {
+  padding: 10px 10px 13px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  box-shadow: 1px 1px 4px rgb(124 131 140 / 4%), 1px 1px 4px rgb(124 131 140 / 4%), -1px 1px 4px rgb(124 131 140 / 4%), -1px 1px 4px rgb(124 131 140 / 4%);
+}
+.note-list .note-name {
+  display: block;
+  max-height: 40px;
+  font-size: 15px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 10px;
+}
+.note-list .user-head img {
+  width: 22px;
+  height: 22px;
+  border-radius: 100%;
+}
+.note-list .user-name {
+  max-width: 120px;
+  margin-left: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.note-list .not-like {
+  background:  url(../../assets/love.png) no-repeat left 1px;
+  _background-image: none;
+  background-size: 15px;
+
+}
+
+.note-list .like, .note-list .not-like {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  padding-left: 19px;
+  font-size: 12px;
+  cursor: pointer;
+  background-size: 15px;
+  display: inline-block;
+  height: 15px;
+  position: absolute;
+  right: 10px;
+  bottom: 16px;
+}
+.right {
+  float: right;
+}
+.note-list.ml13 {
+  margin-left: 13px;
+}
+.note-list.ml14 {
+  margin-left: 14px;
+}
+.clearfix {
+  zoom: 1;
+}
+li {
   position: relative;
   width: 319px;
   margin-right: 14px;
   margin-bottom: 34px;
-}
-.cook-list li {
-
 }
 .cook-img {
   display: inline-block;

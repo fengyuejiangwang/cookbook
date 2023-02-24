@@ -65,6 +65,7 @@ public class Cook implements Serializable {
      * 菜谱二级类别id
      */
     private Long category2Id;
+    private Long category1Id;
 
     /**
      * 菜谱等级

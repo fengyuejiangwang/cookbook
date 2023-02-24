@@ -112,4 +112,15 @@ public class CookController {
 
     }
 
+    @PostMapping("/cooklistbyuserid")
+    public Result getCookListByUserId(@RequestBody Cook cook){
+        List<Cook> cookList=icookService.findCookListByUserId(cook.getUserId());
+
+        if(!ObjectUtils.isEmpty(cookList)){
+            return Result.ok(cookList).message("查询当前类别物资成功");
+        }
+        else return Result.error().message("查询当前类别物资失败");
+
+    }
+
 }

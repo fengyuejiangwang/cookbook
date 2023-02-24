@@ -16,13 +16,13 @@
       </h3>
       <div class="author clearfix">
         <div class="author-img">
-          <a href="/u/u18902180926496">
+          <router-link :to="'/user?id='+noteAuthor.id">
             <img :src="noteAuthor.avatar" alt="">
-          </a>
+          </router-link>
         </div>
         <div class="author-info">
           <h3 style="width: auto;max-width: 372px;margin-right: 20px; margin-top: 0px">
-            <a href="/u/u18902180926496">{{ noteAuthor.username }}</a>
+            <router-link :to="'/user?id='+noteAuthor.id">{{ noteAuthor.username }}</router-link>
           </h3>
           <a class="gz" href="javascript:;" data-action="add" onclick=" guanzhu(this,'26590119','nBrgHF2v2CLo4RSDBGGnqqnnBOX5u6DZmUBSAzEQ','0') "><span class="addicon">＋</span> 关注</a>
         </div>
@@ -53,14 +53,15 @@
   </div>
     </el-col>
     <el-col :span=4 :offset="1" style="margin-top: 10px"><h3 class="title">相关笔记</h3>
-    <el-col v-for="index in 6" style="margin-top: 20px;font-size: 20px">
-      <el-col :span="2">
-   <router-link to="" class="related-title"  style="background: url(https://cp1.douguo.com/upload/note/e/8/3/320_1677062607511.jpg) no-repeat center center;background-size: cover;"></router-link>
+    <el-col v-for="(v,k,i) in noteList" style="margin-top: 20px;font-size: 20px">
+      <el-col :span="2" v-for="(v2,k2,i2) in v">
+   <router-link @click.native="this.getNoteDetail()":to="'/notedetail?id='+v2.id" class="related-title"  :style="'background: url('+ v2.picture2 +') no-repeat center center;background-size: cover'"></router-link>
       </el-col>
       <el-col :span="2" :offset="7">
-        <div class="menu-information">
-          <router-link to="" target="_blank"><h3>www</h3></router-link>
-        <div class="source"><span class="not-like" data-like="not-like" onclick="likebeforecheck(31492579,this,'8pvNut3I0yYsyvgj9vMA7VGLRFtuyGNtEuzSBWkG')">0</span></div></div>
+        <div class="menu-information" v-for="(v2,k2,i2) in v">
+          <router-link :to="'/notedetail?id='+v2.id" ><h3>{{v2.noteTitle}}</h3></router-link>
+        <div class="source"><span class="not-like" data-like="not-like">
+          {{v2.likes}}</span></div></div>
       </el-col>
     </el-col>
     </el-col>
@@ -76,6 +77,7 @@ export default {
           id:'',
           note:'',
           noteImg:[],
+          noteList:'',
           noteAuthor:'',
             };
           },
@@ -83,6 +85,7 @@ export default {
     this.id=this.$route.query.id;
     this.getNoteDetail();
     this.getNoteAuthorInfo();
+    this.getNoteList();
   },
   methods:{
     async getNoteDetail() {
@@ -107,7 +110,13 @@ export default {
         this.noteAuthor = res.data;
       }
     },
-
+    async getNoteList(){
+      let res=await NoteApi.getHotNote();
+      res=res.data;
+      if(res.success){
+        this.noteList=res.data;
+      }
+    }
   }
 }
 </script>

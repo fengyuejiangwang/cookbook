@@ -25,4 +25,6 @@ public interface ICookService extends IService<Cook> {
     IPage<Cook> findCookPageByType(IPage<Cook> page, CookQueryVo cookQueryVo);
 
     Cook getLastCook();
+
+    List<Cook> findCookListByUserId(Long userId);
 }

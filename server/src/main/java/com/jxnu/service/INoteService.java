@@ -25,4 +25,6 @@ public interface INoteService extends IService<Note> {
     IPage<Note> findNoteList(IPage<Note> page, NoteQueryVo noteQueryVo);
 
     Note getNoteDetail(Long id);
+
+    List<Note> findNoteListByUserId(Long userId);
 }

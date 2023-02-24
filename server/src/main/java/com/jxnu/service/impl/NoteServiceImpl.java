@@ -47,4 +47,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         queryWrapper.eq("id",id);
         return baseMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public List<Note> findNoteListByUserId(Long userId) {
+        QueryWrapper<Note> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        return baseMapper.selectList(queryWrapper);
+    }
 }

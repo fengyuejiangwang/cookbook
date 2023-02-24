@@ -13,6 +13,7 @@ import UserProfile from "../components/user/UserProfile";
 import User from "../components/user/User"
 import Addmenu from "../components/menu/Addmenu";
 import Menu from"../components/menu/Menu";
+import FoodDetail from "../components/food/FoodDetail";
 Vue.use(Router);
 
 export default new Router({
@@ -73,6 +74,12 @@ export default new Router({
           name:'添加菜单',
           meta:{title: '添加菜单'},
           component: Addmenu,
+        },
+        {
+          path: '/fooddetail',
+          name:'食物详情',
+          meta:{title: '食物详情'},
+          component: FoodDetail,
         },
         {
           path: '/user',

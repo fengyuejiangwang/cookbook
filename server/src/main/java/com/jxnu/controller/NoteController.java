@@ -75,5 +75,14 @@ public class NoteController {
       }
       return Result.error().message("获取热门笔记信息失败");
   }
+    @PostMapping("/notelistbyuserid")
+    public Result getNoteListByUserId(@RequestBody Note note){
+        List<Note> noteList=iNoteService.findNoteListByUserId(note.getUserId());
+        if(!ObjectUtils.isEmpty(noteList)){
+            return Result.ok(noteList).message("查询当前类别物资成功");
+        }
+        else return Result.error().message("查询当前类别物资失败");
+
+    }
 }
 

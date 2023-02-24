@@ -37,15 +37,17 @@
     <ul class="zp-list">
       <li class="clearfix"  v-for="(val,key,index) in hotWork">
         <div class="left">
-          <a class="zp br8" v-for="(val2,key2,index) in val">
-            <img width="110" height="110" :src="val2.picture1">
-          </a>
+          <router-link :to="'/notedetail?id='+val2.id" class="zp br8" v-for="(val2,key2,index) in val">
+            <img width="110px" height="110px" :src="val2.picture1">
+          </router-link>
           <a class="zpinfo" href="/alldish/966669" >
             <p>{{key}}的作品</p>
-            <p class="dishnum">对照菜谱做出来的作品 <span>9795</span> 个</p>
+            <p class="dishnum" v-for="(val2,key2,index) in val">对照菜谱做出来的作品 <span>{{val2.likes}}</span> 个</p>
           </a>
           <div class="left zpwork" style="margin-left: -30px" v-for="(val2,key2,index) in val">
-            <router-link class="zp br8" :to="'/notedetail?id='+(val2.id)" v-for="i in 3" style="background:#f9f9f9 url('https://cp1.douguo.com/upload/note/4/3/c/200x200_43696c7f21aa336a4951a94d57c5200c.jpg') no-repeat left center;background-size: 100%;margin: 0px 10px 30px 0px" ></router-link>
+            <router-link class="zp br8" :to="'/notedetail?id='+(val2.id)" v-for="i in 3"
+                         :style="'background:#f9f9f9 url('+val2.picture3+') no-repeat left center;background-size: 100%;margin: 0px 10px 30px 0px'">
+            </router-link>
           </div>
         </div>
       </li>

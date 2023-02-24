@@ -12,4 +12,8 @@ export default {
   async getNoteAuthorInfo(params) {
     return await http.post("note/noteauthorinfo", params);
   },
+  async getNoteListByUserId(params) {
+    return await http.post("note/notelistbyuserid", params);
+  },
+
 };

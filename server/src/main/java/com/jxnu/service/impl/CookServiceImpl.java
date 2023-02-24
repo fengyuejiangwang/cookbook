@@ -58,6 +58,13 @@ public class CookServiceImpl extends ServiceImpl<CookMapper, Cook> implements IC
     }
 
     @Override
+    public List<Cook> findCookListByUserId(Long userId) {
+        QueryWrapper<Cook> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        return cookMapper.selectList(queryWrapper);
+    }
+
+    @Override
     public IPage<Cook> findCookList(IPage<Cook> page, CookQueryVo cookQueryVo) {
         QueryWrapper<Cook> queryWrapper=new QueryWrapper<>();
         return baseMapper.selectPage(page,queryWrapper);
