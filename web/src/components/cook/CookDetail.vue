@@ -25,9 +25,19 @@
        <div v-else style="display: inline-block"><span>{{cook.views}}</span> 浏览</div>
        <div v-if="cook.collections>10000" style="display: inline-block"><span class="collectnum">{{(cook.collections/10000).toFixed(1)}}</span> 万收藏</div>
        <div v-else style="display: inline-block"><span class="collectnum">{{cook.collections}}</span> 收藏</div>
-       <div class="absolute operate">
-       <a class="btn-collect" href="javascript:void(0);" >收藏</a>
-     </div>
+       <div class="absolute operate" @click="collect">
+         <a class="btn-collect" href="javascript:void(0);" @click="" v-if="isCollect">收藏</a>
+         <a class="btn-collect" href="javascript:void(0);" @click="" v-else>已收藏</a>
+       </div>
+       <div id="coll-box" class="fancbox br4 relative" style="display:none;">
+         <p class="title">收藏成功，选择加入的菜单</p>
+         <img class="close" src="https://cp1.douguo.com/static/nweb/images/close.png" alt="" onclick="cmask()">
+         <ul class="mlist"></ul>
+         <div class="bot-btn">
+           <a id="save-btn" class="save-btn" href="javascript:;" onclick="insertMenu(3238939,'E6JSswwUPK3piig2B4kOkwUkAVxEHCecoiui0oz1')">保存</a>
+         </div>
+         <img class="menucover" src="https://cp1.douguo.com/upload/caiku/b/1/b/220_b1deb0a99bdb07c7ca70bbbc35b85ebb.jpeg" alt="">
+       </div>
      </div>
      <div class="clearfix aut-info relative">
        <div class="clearfix left">
@@ -36,9 +46,11 @@
          </router-link>
          <div class="author-info left">
            <router-link :to="'/user?id='+(author.id)" class="nickname text-lips">{{author.username}}</router-link>
-
          </div>
-         <a class="gz" data-action="add" href="javascript:void(0)" onclick=" guanzhu(this,'4568726','e5qJHEJaq89k9GVj1ejFRjw1VOUI98BZObSDCp2M',0)  "><span class="addicon">＋</span> 关注</a>
+         <div style="display: inline-block" @click="attention">
+         <a class="gz" data-action="add" href="javascript:void(0)"  v-if="isAttention"><span class="addicon"></span>已关注</a>
+         <a class="gz" data-action="add" href="javascript:void(0)"   v-else><span class="addicon">＋</span> 关注</a>
+         </div>
        </div>
      </div>
      <p class="intro">
@@ -51,12 +63,12 @@
      <table width="690" border="0" cellspacing="0" cellpadding="0" class="retamr br8 table">
        <tbody><tr v-for="count in parseInt(((materials.length+1)/2))">
          <td class="lirre" style="border-top:0;">
-           <span class="scname" v-if="materials[2*count-2].foodId!=''"><router-link to="">{{materials[2*count-2].foodName}}</router-link></span>
+           <span class="scname" v-if="materials[2*count-2].foodId!=''"><router-link :to="'/fooddetail?id='+(materials[2*count-2].foodId)">{{materials[2*count-2].foodName}}</router-link></span>
            <span class="scname" v-else>{{materials[2*count-2].foodName}}</span>
            <span class="right scnum">{{materials[2*count-2].consumption}}</span>
          </td>
          <td style="border-top:0;" v-if="2*count-1<=materials.length-1">
-           <span class="scname" v-if="materials[2*count-1].foodId!=''"><router-link to="" target="_blank">{{materials[2*count-1].foodName}}</router-link></span>
+           <span class="scname" v-if="materials[2*count-1].foodId!=''"><router-link :to="'/fooddetail?id='+(materials[2*count-1].foodId)" >{{materials[2*count-1].foodName}}</router-link></span>
            <span class="scname" v-else>{{materials[2*count-1].foodName}}</span>
            <span class="right scnum">{{materials[2*count-1].consumption}}</span>
          </td>
@@ -106,11 +118,11 @@
      </h2>
      <ul class="recipe-list clearfix">
        <li class="item" v-for="(item, index) in 9" :key="item">
-         <a class="cover br8" href="/cookbook/3227162.html" target="_blank">
+         <a class="cover br8" href="/cookbook/3227162.html" >
            <img width="220" height="220" src="https://cp1.douguo.com/upload/caiku/2/a/0/220x220_2aa99f35b3f1a6135450f5cd2ac316d0.jpg" alt="酥皮大泡芙——自用多年零失败配方分享">
          </a>
          <div>
-           <a class="name text-lips" target="_blank" href="/cookbook/3227162.html" >酥皮大泡芙——自用多年零失败配方分享
+           <a class="name text-lips"  href="/cookbook/3227162.html" >酥皮大泡芙——自用多年零失败配方分享
            </a>
            <p class="author text-lips">by
              <a class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; " target="_blank" href="/u/u86645476792551.html">累并-快乐
@@ -168,10 +180,13 @@ import cookApi from "../../api/cook";
 import stepApi from "../../api/step";
 import commentApi from "../../api/comment"
 import userApi from "../../api/user";
+import likeApi from "../../api/like";
 export default {
   name: "CookDetail",
   data(){
     return{
+      isCollect:false,
+      isAttention:false,
       id:'',
       cook:'',
       author:'',
@@ -281,12 +296,100 @@ export default {
             });
            await this.getComment();
           }
-    }
+    },
+    async collect(){
+      let res =await likeApi.collect({
+         followeeId:this.user.id,
+         cookId:this.id,
+         createTime:this.getNowTime(),
+      });
+      res=res.data;
+      if(res.success){
+        this.isCollect=true;
+      }
+    },
+    async attention(){
+      let res =await likeApi.attention({
+        followeeId:this.user.id,
+        followerId:this.cook.userId,
+        createTime:this.getNowTime(),
+      });
+      res=res.data;
+      if(res.success){
+        this.isAttention=true;
+      }
+    },
   }
 }
 </script>
 
 <style scoped>
+#coll-box {
+  width: 590px;
+  background: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -239px;
+  margin-left: -295px;
+  padding: 20px 0 26px;
+}
+#coll-box {
+  z-index: 1000;
+}
+#coll-box .title {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 24px;
+  margin-top: 0;
+}
+#coll-box .close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  cursor: pointer;
+}
+img {
+  vertical-align: bottom;
+  overflow: clip;
+}
+#coll-box .mlist {
+  width: 310px;
+  height: 259px;
+  overflow-y: scroll;
+  margin: 40px 46px 0;
+}
+#coll-box .bot-btn {
+  height: 62px;
+  line-height: 42px;
+  border-top: 1px solid #E5E3DF;
+  padding-top: 20px;
+}
+#coll-box .save-btn {
+  float: right;
+  width: 200px;
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  font-size: 15px;
+  color: #fff;
+  background: #84b92c;
+  margin-right: 34px;
+  border-radius: 6px;
+  vertical-align: middle;
+}
+#coll-box .menucover {
+  width: 197px;
+  height: 197px;
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  border-radius: 6px;
+}
+.br4 {
+  border-radius: 4px;
+}
 body{
   background: #fff;
   color: #333;
@@ -356,7 +459,7 @@ h1 {
   border-radius: 2px;
 }
 .bouti {
-  background: #FFB31A;
+  background: #84b92c;
 }
 .vcnum {
   font-size: 13px;
@@ -365,7 +468,7 @@ h1 {
 }
 .vcnum span {
   font-size: 24px;
-  color: #FFB31A;
+  color: #84b92c;
   position: relative;
   top: 2px;
 }
@@ -383,15 +486,29 @@ h1 {
   height: 34px;
   border-radius: 4px;
   color: #fff;
-  border: 1px solid #FFB31A;
+  border: 1px solid #84b92c;
   font-size: 15px;
   text-align: center;
-  text-decoration: none;
   line-height: 32px;
-  background: #FFB31A url(../../assets/like.png) no-repeat 10px 6px;
+  background: #84b92c url(https://cp1.douguo.com/static/static/nweb/images/star1.png?1) no-repeat 10px 5px;
   background-size: 20px 20px;
   padding-left: 20px;
-  margin-left: 320px;
+  margin-left: 400px;
+}
+.operate .btn-collect {
+  display: inline-block;
+  width: 80px;
+  height: 34px;
+  border-radius: 4px;
+  color: #fff;
+  border: 1px solid #84b92c;
+  font-size: 15px;
+  text-align: center;
+  line-height: 32px;
+  background: #84b92c url(https://cp1.douguo.com/static/static/nweb/images/star2.png?1) no-repeat 5px 5px;
+  background-size: 20px 20px;
+  padding-left: 20px;
+  margin-left: 400px;
 }
 .rinfo .aut-info {
   font-size: 16px;

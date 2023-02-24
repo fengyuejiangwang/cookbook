@@ -711,6 +711,7 @@
 
 
 export default {
+  name: "Food",
   data() {
     return {
       subtitle: '',

@@ -437,7 +437,7 @@
 
 <script>
 export default {
-  name: "Cooksearch"
+  name: "FoodDetail"
 }
 </script>
 
