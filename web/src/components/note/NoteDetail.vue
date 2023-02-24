@@ -1,8 +1,10 @@
 <template>
+  <div style="margin-top: 20px">
+    <el-col :span="11" :offset="4">
   <div id="left" class="mt30">
-    <el-carousel trigger="click">
+    <el-carousel trigger="click" style="border-radius: 8px;overflow: hidden;"height=390px>
       <el-carousel-item  v-for="(item,index) in noteImg" :key="item">
-        <el-image :src="item"  style="width: 800px;height: 300px"></el-image>
+        <el-image :src="item" style="width: 490px;height: 100%;margin-left:100px"></el-image>
       </el-carousel-item>
     </el-carousel>
     <!--作者-->
@@ -36,7 +38,7 @@
       <div class="note-info">
        {{note.description}}</div>
 
-      <div class="other-info">{{note.createTime}}</div>
+      <div class="other-info">创建时间 :{{note.createTime}}</div>
 
     </div>
     <!--评论-->
@@ -49,6 +51,20 @@
       <h3 class="mt30 not-comment">暂无评论</h3>
     </div>
   </div>
+    </el-col>
+    <el-col :span=4 :offset="1" style="margin-top: 10px"><h3 class="title">相关笔记</h3>
+    <el-col v-for="index in 6" style="margin-top: 20px;font-size: 20px">
+      <el-col :span="2">
+   <router-link to="" class="related-title"  style="background: url(https://cp1.douguo.com/upload/note/e/8/3/320_1677062607511.jpg) no-repeat center center;background-size: cover;"></router-link>
+      </el-col>
+      <el-col :span="2" :offset="7">
+        <div class="menu-information">
+          <router-link to="" target="_blank"><h3>www</h3></router-link>
+        <div class="source"><span class="not-like" data-like="not-like" onclick="likebeforecheck(31492579,this,'8pvNut3I0yYsyvgj9vMA7VGLRFtuyGNtEuzSBWkG')">0</span></div></div>
+      </el-col>
+    </el-col>
+    </el-col>
+  </div>
 </template>
 
 <script>
@@ -56,15 +72,13 @@ import NoteApi from "../../api/note"
 export default {
   name: "NoteDetail",
   data(){
-
-return{
-  id:'',
-  note:'',
-  noteImg:[],
-  noteAuthor:'',
-    };
-
-  },
+        return{
+          id:'',
+          note:'',
+          noteImg:[],
+          noteAuthor:'',
+            };
+          },
   created(){
     this.id=this.$route.query.id;
     this.getNoteDetail();
@@ -105,10 +119,50 @@ body{
   font: 12px Noto Sans,"思源黑体";
   padding-top: 60px;
 }
-#left {
-  width:800px;
-  float: left;
-  margin-left: 100px;
+.menu-information {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  height: 88px;
+  padding-top: 8px;
+}
+.menu-information h3 {
+   font-size: 15px;
+   margin-top: 2px;
+   line-height: 20px;
+   height: 40px;
+   text-overflow: ellipsis;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+ }
+.source {
+  position: absolute;
+  font-size: 13px;
+  left: 0;
+  bottom: 11px;
+}
+.source .like, .source .not-like {
+  margin-right: 10px;
+  padding-left: 19px;
+  cursor: pointer;
+  background: url(https://cp1.douguo.com/static/static/nweb/images/like2.png?v=98) no-repeat left 2px;
+  background-size: 15px;
+}
+.related-title {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 11px;
+  margin-right: 8px;
+  vertical-align: top;
+}
+.title {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: bold;
 }
 .mt30 {
   margin-top: 30px;
@@ -241,10 +295,10 @@ element.style {
 }
 
 .el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+  background-color: #eee;
 }
 
 .el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+  background-color: #eee;
 }
 </style>

@@ -7,14 +7,14 @@
       </a>
     </div>
     <!-- 食材 -->
-    <h2 class="title">热门食材<a class="more" href="/shicai">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></a></h2>
+    <h2 class="title">热门食材<router-link class="more" to="">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></router-link></h2>
     <ul class="material-list br8">
       <li class="item" v-for="o in hotFood">
         <router-link to=""><img class="br4" :src="o.picture" >{{o.name}}</router-link>
       </li>
     </ul>
     <!-- 主题站文章 -->
-    <h2 class="title">精彩主题文章<a class="more" target="_blank" href="/article">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></a></h2>
+    <h2 class="title">精彩主题文章<router-link class="more" to="">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt=""></router-link></h2>
     <div class="article">
       <ul class="alist clearfix">
         <div class="hot-article clearfix">
@@ -35,18 +35,18 @@
     <!-- 大家的作品 -->
     <h2 class="title">大家的作品</h2>
     <ul class="zp-list">
-      <li class="clearfix"  v-for="(o, index) in 4" :key="o">
+      <li class="clearfix"  v-for="(val,key,index) in hotWork">
         <div class="left">
-          <a class="zp br8" href="/cookbook/966669.html" target="_blank">
-            <img width="110" height="110" src="https://cp1.douguo.com/upload/caiku/a/d/4/200_ad2c5b6adefb3663f3c347e609a6f7b4.jpg" alt="【轻乳酪蛋糕】用心打造完美奶酪蛋糕">
+          <a class="zp br8" v-for="(val2,key2,index) in val">
+            <img width="110" height="110" :src="val2.picture1">
           </a>
-          <a class="zpinfo" href="/alldish/966669" target="_blank">
-            <p>涛涛妈咪的作品</p>
+          <a class="zpinfo" href="/alldish/966669" >
+            <p>{{key}}的作品</p>
             <p class="dishnum">对照菜谱做出来的作品 <span>9795</span> 个</p>
           </a>
-        </div>
-        <div class="left zpwork" style="margin-left: -30px" v-for="(o, index) in 3" :key="o">
-          <a class="zp br8" href="/dish/31215263" style="background:#f9f9f9 url('https://cp1.douguo.com/upload/note/4/3/c/200x200_43696c7f21aa336a4951a94d57c5200c.jpg') no-repeat left center;background-size: 100%;margin: 0px 10px 30px 0px" target="_blank"></a>
+          <div class="left zpwork" style="margin-left: -30px" v-for="(val2,key2,index) in val">
+            <router-link class="zp br8" :to="'/notedetail?id='+(val2.id)" v-for="i in 3" style="background:#f9f9f9 url('https://cp1.douguo.com/upload/note/4/3/c/200x200_43696c7f21aa336a4951a94d57c5200c.jpg') no-repeat left center;background-size: 100%;margin: 0px 10px 30px 0px" ></router-link>
+          </div>
         </div>
       </li>
     </ul>
@@ -66,6 +66,7 @@ export default {
   },
   created(){
     this.getHotFood();
+    this.getHotWork();
   },
   methods: {
     async getHotFood() {
@@ -76,10 +77,11 @@ export default {
       }
     },
     async getHotWork() {
-      let res = await foodApi.getHotFood();
+      let res = await noteApi.getHotNote();
       res = res.data;
       if (res.code == 200) {
-        this.hotFood = res.data;
+        this.hotWork = res.data;
+        console.log(this.hotWork);
       }
     },
   }

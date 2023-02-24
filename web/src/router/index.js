@@ -11,21 +11,12 @@ import CookDetail from "../components/cook/CookDetail";
 import NoteDetail from "../components/note/NoteDetail";
 import UserProfile from "../components/user/UserProfile";
 import User from "../components/user/User"
+import Addmenu from "../components/menu/Addmenu";
+import Menu from"../components/menu/Menu";
 Vue.use(Router);
 
 export default new Router({
    mode:'history',
-  //跳转页面，重置滚动条置顶部
-  scrollBehavior(to, from, savedPosition) {
-    if(savedPosition) {
-      return savedPosition
-    } else {
-      return {
-        x: 0,
-        y: 0
-      }
-    }
-  },
   routes: [
     {path: '/', redirect: '/index'},
     {path: '/home', redirect: '/index'},
@@ -70,6 +61,18 @@ export default new Router({
           name:'笔记详情',
           meta:{title: '笔记详情'},
           component: NoteDetail,
+        },
+        {
+          path: '/menu',
+          name:'所有菜单',
+          meta:{title: '所有菜单'},
+          component: Menu,
+        },
+        {
+          path: '/addmenu',
+          name:'添加菜单',
+          meta:{title: '添加菜单'},
+          component: Addmenu,
         },
         {
           path: '/user',

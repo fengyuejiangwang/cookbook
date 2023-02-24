@@ -1,6 +1,6 @@
 <template>
   <div>
-  <img src="../../assets/indexImg.jpg" style="width: 100%;">
+  <img src="../../assets/indexImg.jpg" style="width:100%">
   <div style="width: 1050px;margin: auto;">
       <DailyHotCook/>
       <Note/>

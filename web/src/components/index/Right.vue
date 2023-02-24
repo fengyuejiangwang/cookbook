@@ -6,16 +6,17 @@
     <h2 class="title">食为天达人<a class="more" href="/user/pro">更多 <img src="https://cp1.douguo.com/static/nweb/images//more2.png?1" alt=""></a></h2>
     <ul class="dr-list br8">
       <li class="clearfix" v-for="(o,index) in gourmetDaren">
-        <router-link to="" class="headicon left" >
+        <router-link :to="'/user?id='+(o.id)" class="headicon left" >
           <img class="br5" :src="o.avatar" height="46" width="46" >
         </router-link>
         <div class="info">
           <div>
-            <router-link to="" class="nickname text-lips"  target="_blank">{{o.username}}</router-link>
+            <router-link to="'/user?id='+(o.id)" class="nickname text-lips"  target="_blank">{{o.username}}</router-link>
           </div>
           <p class="fans">{{o.followerCount}}粉丝</p>
         </div>
-        <a class="gz" data-action="add" href="javascript:void(0)" onclick=" guanzhu(this,'17256404','jC6tOVO1lY74EO6nIebw4faZpWaAHw6lp1P6s2kN',1)  "><span class="addicon">＋</span> 关注</a>
+        <a class="gz" data-action="add" href="javascript:void(0)" @click="guanZhu()" v-if="0"><span class="addicon">＋</span> 关注</a>
+        <a class="gz" data-action="add" href="javascript:void(0)" @click="guanZhu()" v-else><span class="addicon"></span> 已关注</a>
       </li>
     </ul>
 
@@ -63,7 +64,7 @@ export default {
       if (res.code == 200) {
         this.gourmetDaren = res.data;
       }
-    }
+    },
   }
 }
 </script>

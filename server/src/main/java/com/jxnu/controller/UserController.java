@@ -59,7 +59,6 @@ public class UserController {
         boolean exists = iUserService.checkLogin(user);
         if (exists) {
             User user1 = iUserService.findUserList(user);
-            System.out.println(user1);
             return Result.ok(user1).message("登录成功！");
         }
         return Result.error().message("用户名或密码错误");

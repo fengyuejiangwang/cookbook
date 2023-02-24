@@ -8,13 +8,11 @@
           style="
            max-width: 720px;
            max-height: 600px;"
+          v-if="cook.cover!=undefined"
           :src="cook.cover"
+          lazy
           :preview-src-list="srcList">
         </el-image>
-      <router-link  v-if="cook.video" to="/"  style="display:inline-block;position: absolute;bottom: 169px;right: 319px;width: 52px;
-                ;cursor: pointer; z-index: 3">
-        <img style="width:52px;display:block;" src="https://cp1.douguo.com/static/nweb/images/video_icon.png">
-      </router-link>
     </div>
   </div>
    <div class="rinfo relative" style="width: 700px">
@@ -23,18 +21,21 @@
        <span class="bouti">精品</span>
      </div>
      <div class="vcnum relative">
-       <span>{{cook.views}}</span> 浏览
-       <span class="collectnum">{{cook.collections}}</span>收藏 <div class="absolute operate">
+      <div v-if="cook.views>10000" style="display: inline-block"><span>{{(cook.views/10000).toFixed(1)}}</span> 万浏览</div>
+       <div v-else style="display: inline-block"><span>{{cook.views}}</span> 浏览</div>
+       <div v-if="cook.collections>10000" style="display: inline-block"><span class="collectnum">{{(cook.collections/10000).toFixed(1)}}</span> 万收藏</div>
+       <div v-else style="display: inline-block"><span class="collectnum">{{cook.collections}}</span> 收藏</div>
+       <div class="absolute operate">
        <a class="btn-collect" href="javascript:void(0);" >收藏</a>
      </div>
      </div>
      <div class="clearfix aut-info relative">
        <div class="clearfix left">
-         <router-link to="" class="author-img left" href="/u/u02369349224948.html" >
+         <router-link :to="'/user?id='+(author.id)" class="author-img left"  >
            <img class="br50" :src="author.avatar"  width="30" height="30">
          </router-link>
          <div class="author-info left">
-           <router-link to="" class="nickname text-lips">{{author.username}}</router-link>
+           <router-link :to="'/user?id='+(author.id)" class="nickname text-lips">{{author.username}}</router-link>
 
          </div>
          <a class="gz" data-action="add" href="javascript:void(0)" onclick=" guanzhu(this,'4568726','e5qJHEJaq89k9GVj1ejFRjw1VOUI98BZObSDCp2M',0)  "><span class="addicon">＋</span> 关注</a>
@@ -186,9 +187,6 @@ export default {
   created(){
     this.id=this.$route.query.id;
     this.getCookDetail();
-    this.getAuthorInfo();
-    this.getMaterialInfo();
-    this.getStepInfo();
   },
   methods: {
     async getCookDetail() {
@@ -197,27 +195,22 @@ export default {
       if (res.code == 200) {
         this.cook = res.data;
         this.srcList.push(this.cook.cover);
-      }
-    },
-    async getAuthorInfo() {
-      let res = await cookApi.getAuthorInfo({id:this.id});
-      res = res.data;
-      if (res.code == 200) {
-        this.author = res.data;
-      }
-    },
-    async getMaterialInfo() {
-      let res = await cookApi.getMaterialInfo({id:this.id});
-      res = res.data;
-      if (res.code == 200) {
-        this.materials = res.data;
-      }
-    },
-    async getStepInfo() {
-      let res = await stepApi.getStepInfo({id:this.id});
-      res = res.data;
-      if (res.code == 200) {
-        this.steps = res.data;
+      };
+      let res2 = await cookApi.getAuthorInfo({id:this.id});
+      res2 = res2.data;
+      if (res2.code == 200) {
+        this.author = res2.data;
+      };
+      let res3 = await cookApi.getMaterialInfo({id:this.id});
+      res3 = res3.data;
+      if (res3.code == 200) {
+        this.materials = res3.data;
+      };
+
+      let res4 = await stepApi.getStepInfo({id:this.id});
+      res4 = res4.data;
+      if (res4.code == 200) {
+        this.steps = res4.data;
         for(let i=0;i<this.steps.length;i++)
           this.srcList.push(this.steps[i].picture);
       }

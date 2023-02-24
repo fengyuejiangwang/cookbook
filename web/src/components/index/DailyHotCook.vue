@@ -1,7 +1,7 @@
 <template>
   <div >
     <h2 class="title">每日精选菜谱
-      <router-link to="" class="more" >更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt="" style="
+      <router-link to="/cook" class="more" >更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt="" style="
    height: 10px;
    vertical-align: middle;
    position: relative;
@@ -9,14 +9,14 @@
     </h2>
     <ul class="recipe-list clearfix" style="margin-top: 0px">
       <li class="item" v-for="(val,key, index) in dailyHotCook" >
-        <router-link to="/cookdetail" class="cover br8">
-          <img width="220" height="220" :src="val.cover" :alt="val.cookTitle" @click="click(val.id)">
+        <router-link :to="'/cookdetail?id='+(val.id)" class="cover br8">
+          <img width="220" height="220" :src="val.cover" :alt="val.cookTitle" >
         </router-link>
         <div>
-          <router-link to="/cookdetail" class="name text-lips"  @click="click">{{val.description}}
+          <router-link :to="'/cookdetail?id='+(val.id)" class="name text-lips">{{val.description}}
           </router-link >
           <p class="author text-lips">by
-            <router-link to="/cookdetail" class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; ">{{key}}
+            <router-link :to="'/user?+id='+(val.userId)" class="text-lips" style="display: inline-block;max-width: 184px;vertical-align: middle; ">{{key}}
             </router-link>
           </p>
         </div>
@@ -38,9 +38,6 @@ export default {
     this.getDailyHotCook();
   },
   methods:{
-    click(cookId) {
-      this.$router.push({name: "菜谱详情", query: {id: cookId}})
-    },
     async getDailyHotCook(){
         let res = await cookApi.getDailyHotCook();
         res=res.data;

@@ -1,18 +1,18 @@
 <template>
   <div>
     <h2 class="title">笔记
-      <router-link to="" class="more"  style="text-decoration: none;color: #333;">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt="">
+      <router-link to="/note" class="more"  style="text-decoration: none;color: #333;">更多 <img src="https://cp1.douguo.com/static/nweb/images/more2.png?1" alt="">
       </router-link>
     </h2>
     <ul class="note-list clearfix" style="  margin-top: 20px;">
       <el-row>
       <el-col  v-for="(val,key,index) in hotNote"  :span="6">
         <el-card v-for="(val2,key2,index) in val" :body-style="{ padding: '0px' }"style="border-radius: 10px;width: 220px;height: 290px">
-          <router-link to=""><img :src="val2.picture1" class="image"></router-link>
+          <router-link :to="'/notedetail?id='+(val2.id)"><img :src="val2.picture1" class="image"></router-link>
             <div class="info">
-              <router-link to="" class="name text-lips"  style="  color: #333;
+              <router-link :to="'/notedetail?id='+(val2.id)" class="name text-lips"  style="  color: #333;
   text-decoration: none;">{{val2.noteTitle}}</router-link>
-              <router-link to="" class="author" href="/u/u5708454643.html" style="  color: #333;
+              <router-link :to="'/user?id='+(val2.userId)" class="author" href="/u/u5708454643.html" style="  color: #333;
   text-decoration: none;">
                 <img class="headicon br50" :src="key2" >
                 <span style="" class="nickname text-lips">{{key}}</span>

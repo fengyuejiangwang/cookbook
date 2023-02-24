@@ -1,7 +1,6 @@
 <template>
   <div id="content" >
     <div class="type-tab">
-
         <el-tabs  v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="精选" name="精选">
             <el-container>
@@ -9,15 +8,15 @@
           <ul id="jxlist" style="margin-left:-40px;" >
             <rol v-for="(item,index) in cookList" :key="item">
               <li class="item">
-                <a class="cover" @click="click(item.id)" target="_blank" >
+                <router-link class="cover" :to="'/cookdetail?id='+(item.id)">
                   <img :src="item.cover" :alt="item.cookTitle">
-                </a>
+                </router-link>
                   <div>
-                    <router-link class="cookname text-lips" to="" target="_blank">{{item.cookTitle}}</router-link>
+                    <router-link class="cookname text-lips" :to="'/cookdetail?id='+(item.id)" >{{item.cookTitle}}</router-link>
                   </div>
                 <div style="display: flex;">
                   <div style="float: left">
-                  <router-link class="author text-lips" to="" target="_blank">
+                  <router-link class="author text-lips" :to="'/user?id='+(item.userId)" >
                     <img :src="userList[index].avatar" alt="">&nbsp;&nbsp;&nbsp;{{userList[index].username}}
                   </router-link>
                   </div>
@@ -47,87 +46,176 @@
             </el-container>
           </el-tab-pane>
           <el-tab-pane label="功能性调理" name="功能性调理">
-            <h2 class="title">功能性调理推荐菜谱 </h2>
-            <ul id="jxlist" style="margin-left:-40px;" >
-              <rol v-for="(item,index) in cookList" :key="item">
-                <li class="item">
-                  <a class="cover" href="/cookbook/3238919.html" target="_blank" >
-                    <img :src="item.cover" alt="#一蔬一饭皆告白#鸡汁蘑菇炖豆腐">
-                  </a>
-                  <div  style="position:relative; ">
+            <el-container>
+              <h2 class="title">功能性调理推荐菜谱 </h2>
+              <ul id="jxlist" style="margin-left:-40px;" >
+                <rol v-for="(item,index) in cookList" :key="item">
+                  <li class="item">
+                    <router-link class="cover" :to="'/cookdetail?id='+(item.id)">
+                      <img :src="item.cover" :alt="item.cookTitle">
+                    </router-link>
+                    <div>
+                      <router-link class="cookname text-lips" :to="'/cookdetail?id='+(item.id)" >{{item.cookTitle}}</router-link>
+                    </div>
+                    <div style="display: flex;">
+                      <div style="float: left">
+                        <router-link class="author text-lips" :to="'/user?id='+(item.userId)" >
+                          <img :src="userList[index].avatar" alt="">&nbsp;&nbsp;&nbsp;{{userList[index].username}}
+                        </router-link>
+                      </div>
+                      <div style="float: left;margin-left: 150px" class="view-coll" >
+                        <span v-if="item.views>10000"class="view">{{(item.views/10000).toFixed(1)}}万&nbsp;</span>
+                        <span v-else class="view">{{item.views}}&nbsp;</span>
+                        <span v-if="item.collections>10000" class="collect">{{(item.collections/10000).toFixed(1)}}万</span>
+                        <span v-else class="collect">{{item.collections}}&nbsp;</span>
+                      </div>
+                    </div>
+                  </li>
+                </rol>
 
-                    <a class="cookname text-lips" href="/cookbook/3238919.html" target="_blank">{{item.cookTitle}}</a>
-                    <a class="author text-lips" href="/u/u65632148820379.html" target="_blank">
-                      <img src="https://tx1.douguo.com/upload/photo/9/5/b/70_u65632148820379114034.jpg" alt="白金项链123"> 白金项链123
-                    </a>
-                    <span class="view" style="position:relative; left: 70px;bottom:3px">👁{{item.views}}</span>
-                    <span class="collect" style="position: relative;left: 60px;bottom:3px" >⭐{{item.collections}}</span>
-                  </div>
-                </li>
-              </rol>
-            </ul>
+              </ul>
+              <el-footer align="center" style="padding: 20px">
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :page-sizes="[10,20,50]"
+                  :total="pageInfo.total"
+                  :current-page="pageInfo.pageNo"
+                  :page-size="pageInfo.pageSize"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange">
+                </el-pagination>
+              </el-footer>
+            </el-container>
           </el-tab-pane>
           <el-tab-pane label="人群膳食" name="人群膳食">
-          <h2 class="title">人群膳食推荐菜谱 </h2>
-          <ul id="jxlist" style="margin-left:-40px;" >
-            <rol v-for="(item,index) in cookList" :key="item">
-              <li class="item">
-                <a class="cover" href="/cookbook/3238919.html" target="_blank" >
-                  <img :src="item.cover" alt="#一蔬一饭皆告白#鸡汁蘑菇炖豆腐">
-                </a>
-                <div  style="position:relative; ">
+            <el-container>
+              <h2 class="title">人群膳食推荐菜谱 </h2>
+              <ul id="jxlist" style="margin-left:-40px;" >
+                <rol v-for="(item,index) in cookList" :key="item">
+                  <li class="item">
+                    <router-link class="cover" :to="'/cookdetail?id='+(item.id)">
+                      <img :src="item.cover" :alt="item.cookTitle">
+                    </router-link>
+                    <div>
+                      <router-link class="cookname text-lips" :to="'/cookdetail?id='+(item.id)" >{{item.cookTitle}}</router-link>
+                    </div>
+                    <div style="display: flex;">
+                      <div style="float: left">
+                        <router-link class="author text-lips" :to="'/user?id='+(item.userId)" >
+                          <img :src="userList[index].avatar" alt="">&nbsp;&nbsp;&nbsp;{{userList[index].username}}
+                        </router-link>
+                      </div>
+                      <div style="float: left;margin-left: 150px" class="view-coll" >
+                        <span v-if="item.views>10000"class="view">{{(item.views/10000).toFixed(1)}}万&nbsp;</span>
+                        <span v-else class="view">{{item.views}}&nbsp;</span>
+                        <span v-if="item.collections>10000" class="collect">{{(item.collections/10000).toFixed(1)}}万</span>
+                        <span v-else class="collect">{{item.collections}}&nbsp;</span>
+                      </div>
+                    </div>
+                  </li>
+                </rol>
 
-                  <a class="cookname text-lips" href="/cookbook/3238919.html" target="_blank">{{item.cookTitle}}</a>
-                  <a class="author text-lips" href="/u/u65632148820379.html" target="_blank">
-                    <img src="https://tx1.douguo.com/upload/photo/9/5/b/70_u65632148820379114034.jpg" alt="白金项链123"> 白金项链123
-                  </a>
-                  <span class="view" style="position:relative; left: 70px;bottom:3px">👁{{item.views}}</span>
-                  <span class="collect" style="position: relative;left: 60px;bottom:3px" >⭐{{item.collections}}</span>
-                </div>
-              </li>
-            </rol>
-          </ul>
+              </ul>
+              <el-footer align="center" style="padding: 20px">
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :page-sizes="[10,20,50]"
+                  :total="pageInfo.total"
+                  :current-page="pageInfo.pageNo"
+                  :page-size="pageInfo.pageSize"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange">
+                </el-pagination>
+              </el-footer>
+            </el-container>
         </el-tab-pane>
           <el-tab-pane label="疾病调理" name="疾病调理">
-          <h2 class="title">疾病调理推荐菜谱 </h2>
-          <ul id="jxlist" style="margin-left:-40px;" >
-            <rol v-for="(item,index) in cookList" :key="item">
-              <li class="item">
-                <a class="cover" href="/cookbook/3238919.html" target="_blank" >
-                  <img :src="item.cover" alt="#一蔬一饭皆告白#鸡汁蘑菇炖豆腐">
-                </a>
-                <div  style="position:relative; ">
+            <el-container>
+              <h2 class="title">疾病条例推荐菜谱 </h2>
+              <ul id="jxlist" style="margin-left:-40px;" >
+                <rol v-for="(item,index) in cookList" :key="item">
+                  <li class="item">
+                    <router-link class="cover" :to="'/cookdetail?id='+(item.id)">
+                      <img :src="item.cover" :alt="item.cookTitle">
+                    </router-link>
+                    <div>
+                      <router-link class="cookname text-lips" :to="'/cookdetail?id='+(item.id)" >{{item.cookTitle}}</router-link>
+                    </div>
+                    <div style="display: flex;">
+                      <div style="float: left">
+                        <router-link class="author text-lips" :to="'/user?id='+(item.userId)" >
+                          <img :src="userList[index].avatar" alt="">&nbsp;&nbsp;&nbsp;{{userList[index].username}}
+                        </router-link>
+                      </div>
+                      <div style="float: left;margin-left: 150px" class="view-coll" >
+                        <span v-if="item.views>10000"class="view">{{(item.views/10000).toFixed(1)}}万&nbsp;</span>
+                        <span v-else class="view">{{item.views}}&nbsp;</span>
+                        <span v-if="item.collections>10000" class="collect">{{(item.collections/10000).toFixed(1)}}万</span>
+                        <span v-else class="collect">{{item.collections}}&nbsp;</span>
+                      </div>
+                    </div>
+                  </li>
+                </rol>
 
-                  <a class="cookname text-lips" href="/cookbook/3238919.html" target="_blank">{{item.cookTitle}}</a>
-                  <a class="author text-lips" href="/u/u65632148820379.html" target="_blank">
-                    <img src="https://tx1.douguo.com/upload/photo/9/5/b/70_u65632148820379114034.jpg" alt="白金项链123"> 白金项链123
-                  </a>
-                  <span class="view" style="position:relative; left: 70px;bottom:3px">👁{{item.views}}</span>
-                  <span class="collect" style="position: relative;left: 60px;bottom:3px" >⭐{{item.collections}}</span>
-                </div>
-              </li>
-            </rol>
-          </ul>
+              </ul>
+              <el-footer align="center" style="padding: 20px">
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :page-sizes="[10,20,50]"
+                  :total="pageInfo.total"
+                  :current-page="pageInfo.pageNo"
+                  :page-size="pageInfo.pageSize"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange">
+                </el-pagination>
+              </el-footer>
+            </el-container>
         </el-tab-pane>
           <el-tab-pane label="功效营养" name="功效营养">
-          <h2 class="title">功效营养推荐菜谱 </h2>
-          <ul id="jxlist" style="margin-left:-40px;" >
-            <rol v-for="(item,index) in cookList" :key="item">
-              <li class="item">
-                <a class="cover" href="/cookbook/3238919.html" target="_blank" >
-                  <img :src="item.cover" alt="#一蔬一饭皆告白#鸡汁蘑菇炖豆腐">
-                </a>
-                <div  style="position:relative; ">
-                  <a class="cookname text-lips" href="/cookbook/3238919.html" target="_blank">{{item.cookTitle}}</a>
-                  <a class="author text-lips" href="/u/u65632148820379.html" target="_blank">
-                    <img src="https://tx1.douguo.com/upload/photo/9/5/b/70_u65632148820379114034.jpg" alt="白金项链123"> 白金项链123
-                  </a>
-                  <span class="view" style="position:relative; left: 70px;bottom:3px">👁{{item.views}}</span>
-                  <span class="collect" style="position: relative;left: 60px;bottom:3px" >⭐{{item.collections}}</span>
-                </div>
-              </li>
-            </rol>
-          </ul>
+            <el-container>
+              <h2 class="title">功效营养推荐菜谱 </h2>
+              <ul id="jxlist" style="margin-left:-40px;" >
+                <rol v-for="(item,index) in cookList" :key="item">
+                  <li class="item">
+                    <router-link class="cover" :to="'/cookdetail?id='+(item.id)">
+                      <img :src="item.cover" :alt="item.cookTitle">
+                    </router-link>
+                    <div>
+                      <router-link class="cookname text-lips" :to="'/cookdetail?id='+(item.id)" >{{item.cookTitle}}</router-link>
+                    </div>
+                    <div style="display: flex;">
+                      <div style="float: left">
+                        <router-link class="author text-lips" :to="'/user?id='+(item.userId)" >
+                          <img :src="userList[index].avatar" alt="">&nbsp;&nbsp;&nbsp;{{userList[index].username}}
+                        </router-link>
+                      </div>
+                      <div style="float: left;margin-left: 150px" class="view-coll" >
+                        <span v-if="item.views>10000"class="view">{{(item.views/10000).toFixed(1)}}万&nbsp;</span>
+                        <span v-else class="view">{{item.views}}&nbsp;</span>
+                        <span v-if="item.collections>10000" class="collect">{{(item.collections/10000).toFixed(1)}}万</span>
+                        <span v-else class="collect">{{item.collections}}&nbsp;</span>
+                      </div>
+                    </div>
+                  </li>
+                </rol>
+
+              </ul>
+              <el-footer align="center" style="padding: 20px">
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :page-sizes="[10,20,50]"
+                  :total="pageInfo.total"
+                  :current-page="pageInfo.pageNo"
+                  :page-size="pageInfo.pageSize"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange">
+                </el-pagination>
+              </el-footer>
+            </el-container>
         </el-tab-pane>
         </el-tabs>
 
@@ -158,12 +246,8 @@ export default {
   },
   created() {
     this.getCookList();
-
   },
   methods:{
-    click(vall){
-      this.$router.push({name: "菜谱详情", query: {id: vall}})
-    },
     async getCookList() {
       let res = await cookApi.getCookList({pageNo: this.pageInfo.pageNo, pageSize: this.pageInfo.pageSize});
       res = res.data;
@@ -342,4 +426,5 @@ img {
   position: relative;
   top: -1px;
 }
+
 </style>

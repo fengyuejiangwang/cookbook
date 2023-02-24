@@ -3,8 +3,8 @@
     <div class="header clearfix">
       <router-link class="logo left" to="/index"><img src="../../assets/logo.png" alt=""></router-link>
       <ul class="nav">
-        <li class="act"><router-link to="/index">首页</router-link></li>
-        <li class="relative" @mouseover="cookShow=!cookShow" @mouseout="cookShow=!cookShow">
+        <li :class="{'act':0 ==checkindex}" @click="click(0)"><router-link to="/index">首页</router-link></li>
+        <li :class="{'act':1 ==checkindex}" @click="click(1)" @mouseover="cookShow=!cookShow" @mouseout="cookShow=!cookShow">
           <router-link to="/cook" class="cookLi">菜谱 <span class="naww"></span></router-link>
           <div class="ctip" v-show="cookShow" >
             <span class="arwwj"> </span>
@@ -80,7 +80,7 @@
             </div>
           </div>
         </li>
-        <li class="relative" @mouseover="healthyShow=!healthyShow" @mouseout="healthyShow=!healthyShow">
+        <li :class="{'act':2 ==checkindex }" @click="click(2)" @mouseover="healthyShow=!healthyShow" @mouseout="healthyShow=!healthyShow">
           <router-link to="/article" class="healthyLi">饮食健康<span class="naww"></span></router-link>
           <div class="healthy" v-show="healthyShow">
             <span class="arwwj"> </span>
@@ -139,7 +139,7 @@
             </div>
           </div>
         </li>
-        <li><router-link to="/dish/hot" class="noteLi">笔记</router-link></li>
+        <li :class="{'act':3 ==checkindex }" @click="click(3)"><router-link to="/note" class="noteLi">笔记</router-link></li>
         <li><router-link to="/mall" class="mallLi">商城</router-link></li>
       </ul>
       <form class="search br4 left" method="POST" id="searchForm" action="/caipu/" accept-charset="utf-8" onsubmit="document.charset='utf-8';return Search();">
@@ -171,16 +171,20 @@
           <a href="/caidan/create">创建菜单</a>
         </div>
       </div>
-      <div class="myinfo relative" @mouseover="myInfoShow=!myInfoShow" @mouseout="myInfoShow=!myInfoShow"> <a class="headicon" href="/u/u67996224849052.html">
-        <img class="wb100 br50" src="https://tx1.douguo.com/upload/photo/1/1/1/70_7171e40c70b2052bbf0a72a187633c6a.png" alt=""></a>
+      <div v-if="loginSate" class="myinfo relative" @mouseover="myInfoShow=!myInfoShow" @mouseout="myInfoShow=!myInfoShow">
+        <div style="display:flex ">
+        <router-link class="headicon" :to="'/user?id='+(user.id)">
+        <img class="wb100 br50" :src="user.avatar"> </router-link>
+       <router-link :to="'/user?id='+(user.id)"><span style="display: inline-block;margin-top: 3px;margin-left: 10px">{{user.username}}</span></router-link>
+      </div>
         <div class="myedit br8" v-show="myInfoShow">
           <span class="arwwj"> </span>
           <router-link class="relative" to="">消息提醒</router-link>
           <router-link to="/userprofile">账号设置</router-link>
-          <a to="">退出</a>
+          <router-link to="/" @click.native="exit()">退出</router-link>
         </div>
       </div>
-      <div class="perinfo">
+      <div class="perinfo" v-else>
         <router-link class="login" to="/login"> 登录 </router-link> |
         <router-link class="register" to="/register" > 注册 </router-link>
       </div>
@@ -193,13 +197,30 @@ export default {
   name: "Header",
   data() {
     return {
-      cookShow:false,
-      healthyShow:false,
-      releaseShow:false,
-      myInfoShow:false,
-      searchShow:false,
-      value:'搜索菜谱、菜单、食材、用户',
+      cookShow: false,
+      healthyShow: false,
+      releaseShow: false,
+      myInfoShow: false,
+      searchShow: false,
+      value: '搜索菜谱、菜单、食材、用户',
+      loginSate: '',
+      user: '',
+      checkindex: 0,
     }
+  },
+  created() {
+    this.loginSate = window.sessionStorage.getItem('loginState');
+    if(this.loginSate)
+      this.user = JSON.parse(window.sessionStorage.getItem('user'));
+  },
+  methods:{
+    click(index){
+      this.checkindex=index;
+    },
+    exit() {
+      window.sessionStorage.setItem('loginState', 'false');
+      this.$data.loginSate = false;
+    },
   },
 
 }
@@ -344,8 +365,8 @@ li {
   width: 800px;
   background: #fff;
   position: absolute;
-  top: 45px;
-  left: -162px;
+  top: 60px;
+  left: 270px;
   z-index: 99;
   padding-left: 16px;
 }
@@ -414,8 +435,8 @@ li {
   width: 702px;
   background: #fff;
   position: absolute;
-  top: 45px;
-  left: -162px;
+  top: 60px;
+  left: 300px;
   z-index: 99;
   padding-left: 16px;
 }

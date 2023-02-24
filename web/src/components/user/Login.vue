@@ -93,10 +93,12 @@ export default {
         let res=await userApi.login(this.loginForm);
         res=res.data;
         if(res.success){
-          this.$message.success("登录成功");
+          this.$message.success({message: '登录成功',
+            center: true,
+            offset: 300});
           window.sessionStorage.setItem("loginState",res.success);
-          window.sessionStorage.setItem("userInfo",JSON.stringify(res.data));
-          this.$router.push({path:"/index"});
+          window.sessionStorage.setItem("user",JSON.stringify(res.data));
+         await this.$router.push({path:"/index"});
         }
     },
   }

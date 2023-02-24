@@ -30,6 +30,11 @@ router.beforeEach(function (to, from, next) {
   }
 });
 
+//跳转页面，重置滚动条置顶部
+router.afterEach((to,from,next) => {
+  window.scrollTo(0,0); //切换路由之后滚动条始终在最顶部
+});
+
 new Vue({
   el: '#app',
   router,

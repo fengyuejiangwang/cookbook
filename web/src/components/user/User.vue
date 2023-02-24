@@ -1,17 +1,16 @@
 <template>
   <div id="content" class="clearfix">
     <div class="person-info clearfix mt30">
-      <a href="/u/u67996224849052.html" style="background: url(https://tx1.douguo.com/upload/photo/1/1/1/140_7171e40c70b2052bbf0a72a187633c6a.png) no-repeat center center;background-size:cover;" class="person-img left">
+      <router-link :to="'/user?id='+(user.id)" style="background: url(https://tx1.douguo.com/upload/photo/1/1/1/140_7171e40c70b2052bbf0a72a187633c6a.png) no-repeat center center;background-size:cover;" class="person-img left">
 
-      </a>
+      </router-link>
       <div class="info left">
-        <a class="nickname" href="/u/u67996224849052.html">不喜欢豆类很欢欢乐乐</a>
+        <router-link class="nickname" :to="'/user?id='+(user.id)">{{user.username}}</router-link>
         <p class="sex"><i class="male"></i> </p>
         <p class="relative point">经验值：35
         </p>
         <p class="relative point"> IP属地:
           · 江西
-
         </p>
         <p class="intro">
           <span></span>
@@ -20,26 +19,26 @@
       <div class="right">
         <div class="fav-fans">
           <div class="left">
-            <a href="http://www.douguo.com/u/u67996224849052/friends">
-              <p class="count"> 0  </p>
+            <router-link to="/friends">
+              <p class="count"> {{user.followeeCount}}  </p>
               <p class="text">关注</p>
-            </a>
+            </router-link>
           </div>
           <div class="left">
-            <a href="http://www.douguo.com/u/u67996224849052/fans">
-              <p class="count"> 0 </p>
+            <router-link to="/fans">
+              <p class="count"> {{user.followerCount}} </p>
               <p class="text">粉丝</p>
-            </a>
+            </router-link>
           </div>
           <div class="left">
             <a href="http://www.douguo.com/u/u67996224849052/recipe">
-              <p class="count"> 0  </p>
+              <p class="count"> {{user.cookCount}}  </p>
               <p class="text">菜谱</p>
             </a>
           </div>
           <div class="left">
             <a href="http://www.douguo.com/u/u67996224849052/dish">
-              <p class="count"> 0  </p>
+              <p class="count"> {{user.noteCount}}  </p>
               <p class="text">笔记</p>
             </a>
           </div>
@@ -47,7 +46,21 @@
       </div>
     </div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="概览" name="first"><h3 class="not-menu">暂无数据～</h3></el-tab-pane>
+      <el-tab-pane label="概览" name="first"><h3 class="mini-title">
+        <router-link to="/cook">
+          发布的菜谱 <span>(4)</span>
+        </router-link>
+      </h3>
+        <el-row>
+          <el-col :span="7" :offset="1" v-for="i in 7">
+              <a class="cook-img relative" href="/cookbook/3237445.html" target="_blank">
+                <img src="https://cp1.douguo.com/upload/caiku/8/9/8/400x266_89bbd49d05f852d2165974fc4302de78.jpg" alt="w">
+              </a>
+              <a class="cookname" href="/cookbook/3237445.html?f=sjmy" target="_blank">w</a>
+            <p><i class="read"></i> <span>251</span><i class="star"></i> <span>1</span></p>
+          </el-col>
+          </el-row>
+      </el-tab-pane>
       <el-tab-pane label="菜谱" name="second"><h3 class="not-menu">暂无菜谱～</h3></el-tab-pane>
       <el-tab-pane label="菜单" name="third"><h3 class="not-menu">暂无菜单～</h3></el-tab-pane>
       <el-tab-pane label="笔记" name="fourth"><h3 class="not-menu">暂无笔记～</h3></el-tab-pane>
@@ -58,18 +71,78 @@
       </div><h3 class="not-menu">暂无收藏～</h3></el-tab-pane>
     </el-tabs>
     <p class="fcc" style="padding-top:60px;">
-      你当前的位置：<a href="/" target="_blank">豆果美食</a> &gt; 个人中心
+      你当前的位置：<a href="/" target="_blank">食为天美食</a> &gt; 个人中心
     </p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "User"
+  name: "User",
+  data(){
+    return{
+      user:'',
+    }
+  },
+  created() {
+    this.user=JSON.parse(window.sessionStorage.getItem("user"));
+  }
 }
 </script>
 
 <style scoped>
+.cook-list p {
+  font-size: 12px;
+  height: 12px;
+  line-height: 12px;
+}
+p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.read {
+  vertical-align: middle;
+  display: inline-block;
+  width: 17px;
+  height: 12px;
+  background: url(https://cp1.douguo.com/static/static/nweb/images/view.png?4) no-repeat;
+  background-size: 100%;
+  position: relative;
+  top: -1px;
+}
+.star {
+  vertical-align: middle;
+  display: inline-block;
+  width: 14px;
+  height: 13px;
+  margin-left: 10px;
+  background: url(https://cp1.douguo.com/static/static/nweb/images/favorite.png?4) no-repeat;
+  background-size: 100%;
+  position: relative;
+  top: -1px;
+}
+.cook-list .cookname {
+  display: block;
+  font-size: 15px;
+  height: 35px;
+  line-height: 35px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+a {
+  color: #333;
+  text-decoration: none;
+}
+.mini-title {
+  margin: 20px 0 18px;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
 * {
   box-sizing: border-box;
   margin: 0;

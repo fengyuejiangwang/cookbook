@@ -4,14 +4,15 @@
 <rol style="margin-left: 50px" v-for="(item,index) in noteList" :key="item">
   <div class="note-list">
   <div class="note">
-    <a class="note-cover" @click="click(item.id)" target="_blank" style="display:inline-block;width:240px;height:319.875px">
-      <img :src="item.picture1" alt="" height="319.875">
-    </a>            <div class="note-info clearfix">
-    <a @click="click(item.id)" class="note-name" target="_blank" style="height: 40px">{{ item.noteTitle }}</a>
-    <a href="/u/u87931697725071" class="user-head" target="_blank">
-      <img src="https://tx1.douguo.com/upload/photo/7/7/7/70_u87931697725071163944.jpg" alt="">
-    </a>
-    <a href="/u/u87931697725071" class="user-name" target="_blank">{{getUser(item.userId).then(getUser(item.userId))}}</a>
+    <router-link  :to="'/notedetail?id='+(item.id)" class="note-cover" style="display:inline-block;width:240px;height:319.875px">
+      <img :src="item.picture1" alt="" height="319.875" >
+    </router-link>
+    <div class="note-info clearfix">
+    <router-link  :to="'/notedetail?id='+(item.id)" class="note-name"  style="height: 40px">{{ item.noteTitle }}</router-link>
+    <router-link  :to="'/user?id='+(item.userId)" class="user-head" >
+      <img :src="usernameList[index].avatar" alt="" >
+    </router-link>
+    <router-link :to="'/user?id='+(item.userId)"  class="user-name">{{usernameList[index].username}}</router-link>
     <span class="not-like right" data-like="not-like" onclick="setLike(31407977,this,'K0snn029WIBSivK9XB1n84BiPYLwX9uVfDZhIb8s')">{{item.likes}}</span>
   </div>
   </div>
@@ -42,6 +43,7 @@ export default {
     return {
       count:0,
       noteList: [],
+      usernameList:[],
       pageInfo: {
         pageNo: 1,
         pageSize: 8,
@@ -53,25 +55,23 @@ export default {
     this.getNoteList();
   },
   methods: {
-    click(vall){
-      this.$router.push({name: "笔记详情", query: {id: vall}})
-    },
     async getNoteList() {
       let res = await noteApi.getNoteList({pageNo: this.pageInfo.pageNo, pageSize: this.pageInfo.pageSize});
       res = res.data;
       if (res.success) {
         this.noteList = res.data.records;
         this.pageInfo.total = res.data.total;
-      }
-    },
-    async getUser(id){
-      let res= await userApi.getUser({Id:id});
-      res=res.data;
-      if(res.success){
-        console.log(res.data.username);
-        return res.data.username;
-      }
-    },
+        this.usernameList=[];
+        let uidList=[];
+        for(let i=0;i<this.noteList.length;i++)
+          uidList.push({id:this.noteList[i].userId});
+        let res2=  await userApi.getUserList(uidList);
+        res2=res2.data;
+        if(res2.success){
+          this.usernameList=res2.data;
+        }
+        }
+      },
     // 页面数量改变后查询处理
     handleSizeChange(val) {
       console.log(val);

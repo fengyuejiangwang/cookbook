@@ -12,7 +12,4 @@ export default {
   async getNoteAuthorInfo(params) {
     return await http.post("note/noteauthorinfo", params);
   },
-  async getHotWork(params) {
-    return await http.post("note/hotnote",params);
-  },
 };

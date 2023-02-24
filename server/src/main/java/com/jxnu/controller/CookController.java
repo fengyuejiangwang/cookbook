@@ -78,6 +78,10 @@ public class CookController {
         boolean isSave = icookService.save(cook);
         Cook cook1=icookService.getLastCook();
         if(isSave){
+            Long newCount=iUserService.findUserById(cook.getUserId()).getCookCount();
+            User user=new User();
+            user.setCookCount(++newCount);
+            iUserService.updateById(user);
             return Result.ok(cook1).message("菜谱发布成功！");
         }
             return Result.error().message("菜谱发布失败");
