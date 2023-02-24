@@ -3,10 +3,8 @@ package com.jxnu.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jxnu.entity.Cook;
-import com.jxnu.entity.Material;
-import com.jxnu.entity.Note;
-import com.jxnu.entity.User;
+import com.jxnu.entity.*;
+import com.jxnu.service.ICommentService;
 import com.jxnu.service.ICookService;
 import com.jxnu.service.IMaterialService;
 import com.jxnu.service.IUserService;
@@ -16,6 +14,7 @@ import com.jxnu.vo.query.NoteQueryVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,8 @@ import java.util.Map;
 public class CookController {
     @Resource
      private ICookService icookService;
+    @Resource
+    private ICommentService iCommentService;
     @Resource
     private IUserService iUserService;
     @Resource
@@ -111,4 +112,5 @@ public class CookController {
         else return Result.error().message("查询当前类别物资失败");
 
     }
+
 }

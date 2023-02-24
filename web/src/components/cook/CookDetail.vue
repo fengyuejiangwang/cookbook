@@ -121,45 +121,43 @@
      </ul>
    </div>
    <el-row id="comment" class="comment" style="width: 690px">
-     <div id="comment-text"><h2 class="mini-title">评论</h2><div class="in-comment clearfix"><div class="author-img"><img class="br50" width="30" height="30" src="https://tx1.douguo.com/upload/photo/1/1/1/70_004976861ec13b4af62b1d8db8c5c9f7.png" alt="夸张的羊肚菌很慢悠悠"> </div><textarea class="comm-txt left" id="commentContent"></textarea><a href="javascript:;"  class="comm-btn">发表评论</a></div></div>
-     <ul id="comments">
-       <li class="clearfix" onclick="comments.addReply('角落里的鲅鱼很爱潜水', 'u04567164764971', '26090964', '8987052',0)">
-       <a class="author-img" href="/u/u04567164764971.html" target_="blank">
-         <img src="https://cp1.douguo.com/upload/photo/1/1/1/70_5ef4441f687d47f348f17b4b7a982c15.png" alt="角落里的鲅鱼很爱潜水">
-       </a>
+     <div id="comment-text"><h2 class="mini-title">评论</h2>
+       <div class="in-comment clearfix">
+         <div class="author-img">
+           <img class="br50" width="30" height="30" :src="user.avatar" :alt="user.username" v-if="loginState==true">
+           <img class="br50" width="30" height="30" src="https://i1.douguo.com/static/img/70.jpg" v-else >
+         </div>
+         <p class="comm-txt left" v-if="loginState==false">发表评论，你需要 <router-link to="/login" style="color: #409EFF">登录</router-link> 或 <a style="color: #409EFF" href="/signup.html">注册</a></p>
+         <textarea class="comm-txt left" id="commentContent" v-model="comment" v-else></textarea>
+         <a href="javascript:;"  class="comm-btn" @click="publishComment">发表评论</a></div></div>
+     <ul id="comments" v-if="!more">
+       <li class="clearfix" v-for="(item,index) in commentList" v-if="index<3">
+       <router-link class="author-img" :to="'/user?id='+(item.fromUid)">
+         <img :src="userList[index].avatar" alt="角落里的鲅鱼很爱潜水">
+       </router-link>
        <div class="author-comment">
-         <a class="nickname" href="/u/u04567164764971.html" target_="blank">角落里的鲅鱼很爱潜水</a>
-         <p class="commtxt">@<a href="/u/u4747700070718.html">Nauyux</a> 看着应该很好看？可以研究一下把味道做好吃点👍🌹🌹🌹🌹🌹💯</p>
-         <p class="time">1天前 甘肃省</p>
-         <a class="reply-btn" href="javascript:;" onclick="comments.addReply('角落里的鲅鱼很爱潜水', 'u04567164764971', '26090964', '8987052',0)">回复</a>
-       </div>
-
-     </li>
-       <li class="clearfix" onclick="comments.addReply('2018滨州移动互联网交流论坛', 'u40382253669607', '22835525', '8986482',0)">
-       <a class="author-img" href="/u/u40382253669607.html" target_="blank">
-         <img src="https://i1.douguo.com/static/img/70.jpg" alt="2018滨州移动互联网交流论坛">
-       </a>
-       <div class="author-comment">
-         <a class="nickname" href="/u/u40382253669607.html" target_="blank">2018滨州移动互联网交流论坛</a>
-         <p class="commtxt">把土豆切出8个角的形状</p>
-         <p class="time">4天前 山东</p>
-         <a class="reply-btn" href="javascript:;" onclick="comments.addReply('2018滨州移动互联网交流论坛', 'u40382253669607', '22835525', '8986482',0)">回复</a>
-       </div>
-     </li>
-       <li class="clearfix" onclick="comments.addReply('贝丫头_', 'u42913552927627', '11421291', '8985544',0)">
-       <a class="author-img" href="/u/u42913552927627.html" target_="blank">
-         <img src="https://cp1.douguo.com/upload/photo/d/1/f/70_u42913552927627182345.jpg" alt="贝丫头_">
-       </a>
-       <div class="author-comment">
-         <a class="nickname" href="/u/u42913552927627.html" target_="blank">贝丫头_</a>
-         <p class="commtxt">@<a href="/u/u42639680732842.html">颖子菇凉</a> 也可以。我没放也味道不错</p>
-         <p class="time">7天前 山西</p>
+         <router-link class="nickname" :to="'/user?id='+(item.fromUid)" >{{ userList[index].username }}</router-link>
+         <p class="commtxt"> {{ item.content }}</p>
+         <p class="time">{{item.createTime}}</p>
          <a class="reply-btn" href="javascript:;" >回复</a>
        </div>
      </li>
      </ul>
+     <ul id="comments" v-else>
+       <li class="clearfix" v-for="(item,index) in commentList">
+         <router-link class="author-img" :to="'/user?id='+(item.fromUid)">
+           <img :src="userList[index].avatar" alt="角落里的鲅鱼很爱潜水">
+         </router-link>
+         <div class="author-comment">
+           <router-link class="nickname" :to="'/user?id='+(item.fromUid)" >{{ userList[index].username }}</router-link>
+           <p class="commtxt"> {{ item.content }}</p>
+           <p class="time">{{item.createTime}}</p>
+           <a class="reply-btn" href="javascript:;" >回复</a>
+         </div>
+       </li>
+     </ul>
    </el-row>
-   <div class="readMore" style="display: block;">查看更多评论</div>
+   <div class="readMore" style="display: block;" @click="click">查看更多评论</div>
 </div>
   </div>
 </template>
@@ -168,6 +166,8 @@
 
 import cookApi from "../../api/cook";
 import stepApi from "../../api/step";
+import commentApi from "../../api/comment"
+import userApi from "../../api/user";
 export default {
   name: "CookDetail",
   data(){
@@ -175,9 +175,15 @@ export default {
       id:'',
       cook:'',
       author:'',
+      user:'',
+      loginState:'',
+      more:false,
       materials:[],
       steps:[],
       srcList:[],
+      commentList:[],
+      comment:'',
+      userList:[],
       imgStyle:{
         maxWidth:'720px',
         maxHeight:'600px'
@@ -186,9 +192,15 @@ export default {
   },
   created(){
     this.id=this.$route.query.id;
+    this.user=JSON.parse(window.sessionStorage.getItem("user"));
+    this.loginState=window.sessionStorage.getItem('loginState');
     this.getCookDetail();
+    this.getComment();
   },
   methods: {
+    click(){
+      this.more=true;
+    },
     async getCookDetail() {
       let res = await cookApi.getCookDetail({id:this.id});
       res = res.data;
@@ -215,6 +227,61 @@ export default {
           this.srcList.push(this.steps[i].picture);
       }
     },
+    async getComment(){
+      let res=await commentApi.getComment({id:this.id});
+      res=res.data;
+      if(res.code==200){
+        this.commentList=res.data;
+        let uidList=[];
+        for(let i=0;i<this.commentList.length;i++){
+          uidList.push({id:this.commentList[i]['fromUid']});
+        }
+        let res2=await userApi.getUserList(uidList);
+        res2=res2.data;
+        if(res2.code==200){
+          this.userList=res2.data;
+        }
+      }
+    },
+    getNowTime()//获取当前时间
+    {
+      let date = new Date();
+      //年 getFullYear()：四位数字返回年份
+      let year = date.getFullYear();  //getFullYear()代替getYear()
+      //月 getMonth()：0 ~ 11
+      let month = date.getMonth() + 1;
+      //日 getDate()：(1 ~ 31)
+      let day = date.getDate();
+      //时 getHours()：(0 ~ 23)
+      let hour = date.getHours();
+      //分 getMinutes()： (0 ~ 59)
+      let minute = date.getMinutes();
+      //秒 getSeconds()：(0 ~ 59)
+      let second = date.getSeconds();
+      let time = year + '-' + this.addZero(month) + '-' + this.addZero(day) + ' ' + this.addZero(hour) + ':' + this.addZero(minute) + ':' + this.addZero(second);
+      return time;
+    },
+    addZero(s) {
+      return s < 10 ? ('0' + s) : s;
+    },
+    async publishComment() {
+    let res=await commentApi.publishComment({
+      cookId:this.id,
+      content:this.comment,
+      fromUid:this.user.id,
+      createTime:this.getNowTime(),
+      contentId:1,
+    });
+        res=res.data;
+          if(res.success){
+            this.$message.success({
+              message: '发表成功',
+              center: true,
+              offset: 300
+            });
+           await this.getComment();
+          }
+    }
   }
 }
 </script>
