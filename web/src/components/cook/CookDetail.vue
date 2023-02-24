@@ -26,7 +26,7 @@
        <div v-if="cook.collections>10000" style="display: inline-block"><span class="collectnum">{{(cook.collections/10000).toFixed(1)}}</span> 万收藏</div>
        <div v-else style="display: inline-block"><span class="collectnum">{{cook.collections}}</span> 收藏</div>
        <div class="absolute operate" @click="collect">
-         <a class="btn-collect" href="javascript:void(0);" @click="" v-if="isCollect">收藏</a>
+         <a class="btn-collect" href="javascript:void(0);" @click="" v-if="!isCollect">收藏</a>
          <a class="btn-collect" href="javascript:void(0);" @click="" v-else>已收藏</a>
        </div>
        <div id="coll-box" class="fancbox br4 relative" style="display:none;">
@@ -136,10 +136,10 @@
      <div id="comment-text"><h2 class="mini-title">评论</h2>
        <div class="in-comment clearfix">
          <div class="author-img">
-           <img class="br50" width="30" height="30" :src="user.avatar" :alt="user.username" v-if="loginState==true">
+           <img class="br50" width="30" height="30" :src="user.avatar" :alt="user.username" v-if="loginState">
            <img class="br50" width="30" height="30" src="https://i1.douguo.com/static/img/70.jpg" v-else >
          </div>
-         <p class="comm-txt left" v-if="loginState==false">发表评论，你需要 <router-link to="/login" style="color: #409EFF">登录</router-link> 或 <a style="color: #409EFF" href="/signup.html">注册</a></p>
+         <p class="comm-txt left" v-if="!loginState">发表评论，你需要 <router-link to="/login" style="color: #409EFF">登录</router-link> 或 <a style="color: #409EFF" href="/signup.html">注册</a></p>
          <textarea class="comm-txt left" id="commentContent" v-model="comment" v-else></textarea>
          <a href="javascript:;"  class="comm-btn" @click="publishComment">发表评论</a></div></div>
      <ul id="comments" v-if="!more">
@@ -180,7 +180,7 @@ import cookApi from "../../api/cook";
 import stepApi from "../../api/step";
 import commentApi from "../../api/comment"
 import userApi from "../../api/user";
-import likeApi from "../../api/like";
+import likeApi from "../../api/likes";
 export default {
   name: "CookDetail",
   data(){
@@ -733,7 +733,7 @@ input, textarea, select, button {
 }
 #comment .in-comment > .comm-btn {
   float: right;
-  color: #FFB31A;
+  color: #84b92c;
   right: 0;
   margin-top: 10px;
   display: inline-block;
@@ -743,7 +743,7 @@ input, textarea, select, button {
   text-align: center;
   line-height: 34px;
   font-size: 15px;
-  border: 1px solid #FFB31A;
+  border: 1px solid #84b92c;
 }
 #comments {
   padding-bottom: 30px;

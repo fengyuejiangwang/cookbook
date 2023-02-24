@@ -10,11 +10,9 @@ import com.jxnu.service.IMaterialService;
 import com.jxnu.service.IUserService;
 import com.jxnu.utils.Result;
 import com.jxnu.vo.query.CookQueryVo;
-import com.jxnu.vo.query.NoteQueryVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

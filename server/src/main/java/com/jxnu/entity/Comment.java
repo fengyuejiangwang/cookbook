@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Comment {
     private static final long serialVersionUID = 1L;
@@ -15,5 +17,5 @@ public class Comment {
     private Long cookId;
     private Long fromUid;
     private String content;
-    private String createTime;
+    private LocalDateTime createTime;
 }
