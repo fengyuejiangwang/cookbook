@@ -52,13 +52,14 @@
         </router-link>
       </h3>
         <el-row>
-          <el-col :span="7" :offset="1" v-for="i in 7">
-              <a class="cook-img relative" href="/cookbook/3237445.html" target="_blank">
-                <img src="https://cp1.douguo.com/upload/caiku/8/9/8/400x266_89bbd49d05f852d2165974fc4302de78.jpg" alt="w">
-              </a>
-              <a class="cookname" href="/cookbook/3237445.html?f=sjmy" target="_blank">w</a>
-            <p><i class="read"></i> <span>251</span><i class="star"></i> <span>1</span></p>
-          </el-col>
+          <li class="left" v-for="(item,index) in 3" key="item" style="list-style: none">
+            <a class="cook-img relative" href="/cookbook/3239049.html" target="_blank">
+              <img src="https://cp1.douguo.com/upload/caiku/a/3/1/600_a312c12130609ecce02d9d6ea7f17f11.jpeg" alt="鸡爪煲">
+            </a>
+            <a class="cookname" href="/cookbook/3239049.html?f=sjmy" target="_blank">鸡爪煲</a>
+            <p><i class="read"></i> <span>7.3万</span><i class="star"></i> <span>872</span></p>
+
+          </li>
           </el-row>
       </el-tab-pane>
       <el-tab-pane label="菜谱" name="second"><h3 class="not-menu">暂无菜谱～</h3></el-tab-pane>
@@ -91,6 +92,40 @@ export default {
 </script>
 
 <style scoped>
+.left {
+
+  position: relative;
+  width: 319px;
+  margin-right: 14px;
+  margin-bottom: 34px;
+}
+.cook-list li {
+
+}
+.cook-img {
+  display: inline-block;
+  width: 324px;
+  height: 182px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+a {
+  color: #333;
+  text-decoration: none;
+}
+.cook-img img {
+  display: block;
+  width: 100%;
+}
+ .cookname {
+  display: block;
+  font-size: 15px;
+  height: 35px;
+  line-height: 35px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .cook-list p {
   font-size: 12px;
   height: 12px;
